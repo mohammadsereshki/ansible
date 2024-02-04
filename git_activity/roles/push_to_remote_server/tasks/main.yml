@@ -27,3 +27,8 @@
      update: yes
      remote: "{{ remote_srv_remote }}"
      version: "{{ remote_srv_branch }}"
+  register: gitpull_reg
+
+
+- debug:
+    var: gitpull_reg
