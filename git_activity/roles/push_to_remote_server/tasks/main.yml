@@ -6,7 +6,6 @@
     responses:
      (?i)password: "{{ ansible_ssh_pass }}"
   delegate_to: localhost
-  no_log: true
 
 
 - name: check git diff on remote server to be sure no one changed any file there
