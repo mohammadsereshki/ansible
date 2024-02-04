@@ -18,6 +18,9 @@ github_token: !vault |
           3864666638386337386134333234613030373734616337626435
 
 
+local_remote_vars:
+   - "uat  appuser@rhel2:/home/appuser/git-server/project.git"
+
 gitlab_repo_url: https://{{ github_token }}@github.com/mohammadsereshki/python_test.git
 source_remote: origin
 source_branch: uat
