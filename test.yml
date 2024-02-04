@@ -1,0 +1,6 @@
+- name: test ansible
+  hosts: localhost
+  gather_facts: no
+  tasks:
+  - name: create /tmp/info_
+    shell: echo "sam" > /tmp/info_
