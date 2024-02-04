@@ -4,6 +4,7 @@
     command: "git push {{ destination_remote }} {{ destination_branch }}"
     chdir: "{{ local_repo_path }}"
     responses:
+     (?i)(yes/no)? "yes"
      (?i)password: "{{ ansible_ssh_pass }}"
   delegate_to: localhost
 
