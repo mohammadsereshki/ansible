@@ -1,0 +1,17 @@
+---
+# tasks file for gitlab_pull_push
+- name: Ensure the Git repository is cloned from GitLab
+  git:
+    repo: "{{ gitlab_repo_url }}"
+    dest: "{{ local_repo_path }}"
+    remote: "{{ source_remote }}"
+    clone: yes
+
+- name: Perform a Git pull from Repository in GitLab
+  git:
+    repo: "{{ gitlab_repo_url }}"
+    dest: "{{ local_repo_path }}"
+    update: yes
+    force: yes
+    remote: "{{ source_remote }}"
+    version: "{{ source_branch }}"

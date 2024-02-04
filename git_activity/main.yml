@@ -1,0 +1,10 @@
+---
+- name: Pull from GitLab Repository  and Push to Another Server Repository
+  hosts: all 
+  gather_facts: no
+    
+  roles:
+     - {role: gitlab_pull_push , delegate_to: localhost}
+     - role: push_to_remote_server 
+  
+

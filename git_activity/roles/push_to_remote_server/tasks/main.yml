@@ -1,0 +1,29 @@
+---
+- name: Perform a Git push to remote server
+  expect:
+    command: "git push {{ destination_remote }} {{ destination_branch }}"
+    chdir: "{{ local_repo_path }}"
+    responses:
+     (?i)password: "{{ ansible_ssh_pass }}"
+  delegate_to: localhost
+  no_log: true
+
+
+- name: check git diff on remote server to be sure no one changed any file there
+  command:
+    cmd: "git diff HEAD --stat"
+    chdir: "{{ remote_repo_path }}"
+  register: gitdiff
+
+- name: show error if there is an issue in GIT DIFF
+  debug:
+    msg: "!!!!!!please check {{ remote_repo_path }} seems files are changed!!!!!"
+  when: gitdiff.stdout != ""
+
+- name: Perform a Git pull from Repository in Remote server
+  git:
+     repo: "{{ remote_repo_url }}"
+     dest: "{{ remote_repo_path }}"
+     update: yes
+     remote: "{{ remote_srv_remote }}"
+     version: "{{ remote_srv_branch }}"

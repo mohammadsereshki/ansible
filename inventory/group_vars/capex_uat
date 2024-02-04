@@ -1,0 +1,22 @@
+---
+ansible_ssh_user: appuser
+ansible_ssh_pass: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          31306265383261373861393530366434393531663930326139386562316162643233666535663764
+          3363363734623839613335653562343765343733356530360a373532643763313133363463326464
+          30373735656465656165636665383563363430646233323733353666313161343231363063373363
+          3364613761623131350a646266386439333963393965363065393462643330393066336637323037
+          3661
+
+
+
+gitlab_repo_url: https://github.com/mohammadsereshki/python_test.git
+source_remote: origin
+source_branch: uat
+remote_srv_remote: origin
+remote_srv_branch: uat
+destination_remote: uat
+destination_branch: uat
+remote_repo_url: /home/appuser/git-server/project.git
+local_repo_path: /git-repo/python_test
+remote_repo_path: /home/appuser/app_data
