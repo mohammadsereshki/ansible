@@ -30,5 +30,5 @@ destination_remote: uat
 destination_branch: uat
 remote_repo_url: /home/appuser/git-server/project.git
 jenkins_pipeline_path: "/git-repo"
-local_repo_path: {{ jenkins_pipeline_path }}/python_test
+local_repo_path: "{{ jenkins_pipeline_path }}/python_test"
 remote_repo_path: /home/appuser/app_data
