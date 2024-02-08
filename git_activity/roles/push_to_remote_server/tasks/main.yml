@@ -39,5 +39,5 @@
 
 - name: show new changes on git
   debug:
-    var: git_new_update
+    var: git_new_update.stdout_lines
   when: gitpull_reg.after != gitpull_reg.before
