@@ -30,5 +30,8 @@
   register: gitpull_reg
 
 
-- debug:
-    var: gitpull_reg
+- name: show updated files
+  command:
+    cmd: "git show {{ gitpull_reg.after }}"
+    chdir: "{{ remote_repo_path }}"
+  when: {{ gitpull_reg.after }} != {{ gitpull_reg.before }}
