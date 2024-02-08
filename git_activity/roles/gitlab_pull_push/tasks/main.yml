@@ -24,7 +24,7 @@
 
 - name: list current remotes
   debug:
-    var: cur_remote_reg
+    var: cur_remote_reg.stdout_lines
 
 
 - name: add remote to local repo
@@ -38,4 +38,4 @@
 
 - name: list new remotes
   debug:
-    var: new_remote_reg
+    var: new_remote_reg.stdout_lines
