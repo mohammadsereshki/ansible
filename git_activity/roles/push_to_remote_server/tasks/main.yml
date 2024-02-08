@@ -35,3 +35,9 @@
     cmd: "git show {{ gitpull_reg.after }}"
     chdir: "{{ remote_repo_path }}"
   when: gitpull_reg.after != gitpull_reg.before
+  register: git_new_update
+
+- name: show new changes on git
+  debug:
+    var: git_new_update
+  when: gitpull_reg.after != gitpull_reg.before
