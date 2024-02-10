@@ -4,7 +4,9 @@
   gather_facts: no
     
   roles:
-     - {role: gitlab_pull_push , delegate_to: localhost}
+     #if you want to run manual comment out this line
+     #- {role: gitlab_clone , delegate_to: localhost}
+     - {role: git_add_remotes , delegate_to: localhost}
      - role: push_to_remote_server 
   
 

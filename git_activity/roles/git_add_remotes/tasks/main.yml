@@ -1,0 +1,13 @@
+---
+- name: add remote to local repo
+  command:
+    cmd: "git  remote add {{ item }}"
+    chdir: "{{ local_repo_path }}"
+  with_items:
+    - "{{ local_remote_vars }}"
+  ignore_errors: True
+  register: new_remote_reg
+
+- name: list new remotes
+  debug:
+    var: new_remote_reg.stdout_lines
