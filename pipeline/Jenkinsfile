@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    options {
+      disableConcurrentBuilds()
+      disableRestartFromStage()
+      disableResume()
+      quietPeriod 30
+      timeout(activity: true, time: 5)
+      ansiColor('xterm')
+      buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
+    }
+    stages {
+        stage('CLONE  ansible repo') {
+            steps {
+                checkout changelog: false, 
+                poll: false, 
+                scm: scmGit(branches: [[name: '*/**']],
+                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible'], localBranch('main')],
+                userRemoteConfigs: [[credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/mohammadsereshki/ansible.git']])
+            }
+        }
+        stage('Clone python repo') {
+            steps {
+                checkout changelog: false,
+                poll: false,
+                scm: scmGit(branches: [[name: '**']], 
+                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'python_test'], localBranch('uat')], 
+                userRemoteConfigs: [[credentialsId: 'GITHUB_TOKEN', 
+                url: 'https://github.com/mohammadsereshki/python_test.git']])
+            }
+        }
+        stage('run ansible') {
+            steps {
+                ansiblePlaybook colorized: true, 
+                extras: '-e "jenkins_pipeline_path=${workspace}"', 
+                inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
+                playbook: '${workspace}/ansible/git_activity/main.yml', 
+                vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
+            }
+            
+        }
+    }
+    environment {
+        EMAIL_TO = "mohammadsereshki@gmail.com,sheibani.mahmoud@gmail.com"
+    }
+    post {
+        always {
+            cleanWs()
+            mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
+            cc: '', charset: 'UTF-8', from: "jenkins@ariana.com", mimeType: 'text/html', replyTo: '', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
+        }
+    }
+}
