@@ -32,7 +32,7 @@ pipeline {
         stage('run ansible') {
             steps {
                 ansiblePlaybook colorized: true, 
-                extras: '-e "jenkins_pipeline_path=/var/jenkins/workspace/first_pipeline"', 
+                extras: '-e "jenkins_pipeline_path=${workspace}"', 
                 inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
                 playbook: '${workspace}/ansible/git_activity/main.yml', 
                 vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
@@ -41,7 +41,7 @@ pipeline {
         }
     }
     environment {
-        EMAIL_TO = "mohammadsereshki@gmail.com"
+        EMAIL_TO = "mohammadsereshki@gmail.com,sheibani.mahmoud@gmail.com"
     }
     post {
         always {
