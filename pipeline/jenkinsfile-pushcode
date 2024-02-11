@@ -52,18 +52,12 @@ pipeline {
             cc: '', charset: 'UTF-8', from: "jenkins@ariana.com", mimeType: 'text/html', replyTo: '', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
         }
         failure {
-
-            emailext body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
-            to: "${EMAIL_TO}",
-            from: "jenkins@ariana.com",
-            subject: "Jenkins build failed: ${env.JOB_NAME} [${env.BUILD_NUMBER}]"
+            mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
+            cc: '', charset: 'UTF-8', from: "jenkins@ariana.com", mimeType: 'text/html', replyTo: '', subject: "Jenkins build failed {env.JOB_NAME} Build # ${env.BUILD_NUMBER} ", to: "${env.EMAIL_TO}"
         }
-
         unstable {
-            emailext body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
-            to: "${EMAIL_TO}",
-            from: "jenkins@ariana.com",
-            subject: "Jenkins build unstable: ${env.JOB_NAME} [${env.BUILD_NUMBER}]"
+            mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
+            cc: '', charset: 'UTF-8', from: "jenkins@ariana.com", mimeType: 'text/html', replyTo: '', subject: "Jenkins build unstable: {env.JOB_NAME} Build # ${env.BUILD_NUMBER} ", to: "${env.EMAIL_TO}"
         }
     }
 }
