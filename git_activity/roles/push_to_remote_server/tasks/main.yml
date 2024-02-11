@@ -39,5 +39,12 @@
 
 - name: show new changes on git
   debug:
-    var: git_new_update.stdout_lines
+    msg: "{{ git_new_update.stdout_lines }}"
+  when: gitpull_reg.after != gitpull_reg.before
+
+- name: Creating a file with content
+  copy:
+    content: "{{ git_new_update.stdout }}"
+    dest: "{{ jenkins_pipeline_path }}/git_changes.txt"
+  delegate_to: localhost 
   when: gitpull_reg.after != gitpull_reg.before
