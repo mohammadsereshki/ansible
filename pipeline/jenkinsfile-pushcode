@@ -41,7 +41,7 @@ pipeline {
         }
     }
     environment {
-        EMAIL_TO = "mohammadsereshki@gmail.com,sheibani.mahmoud@gmail.com"
+        EMAIL_TO = "mohammadsereshki@yahoo.com"
     }
     post {
         always {
