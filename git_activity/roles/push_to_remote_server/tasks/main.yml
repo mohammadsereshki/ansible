@@ -44,7 +44,7 @@
 
 - name: Creating a file with content
   copy:
-    content: "{{ git_new_update.stdout }}"
+    content: "{{ git_new_update.stdout | join('\n') }}\n"
     dest: "{{ jenkins_pipeline_path }}/git_changes.txt"
   delegate_to: localhost 
   when: gitpull_reg.after != gitpull_reg.before
