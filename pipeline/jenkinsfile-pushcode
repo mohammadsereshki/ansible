@@ -46,7 +46,7 @@ pipeline {
     post {
 
         success {
-            emailext bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results. \n\n\n\n\n\n\n\n\n ${readFile 'git_changes.txt'}",
+            emailext body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results. \n\n\n\n\n\n\n\n\n ${readFile 'git_changes.txt'}",
             from: "jenkins@ariana.com", mimeType: 'text/html', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
         }
         failure {
