@@ -48,7 +48,7 @@ pipeline {
         success {
             mail body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br> ${readFile 'git_changes.txt'}</body></html>",
             cc: '', charset: 'UTF-8', from: "jenkins@ariana.com", mimeType: 'text/html', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
-            cleanWs()
+            
         }
         failure {
             mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
