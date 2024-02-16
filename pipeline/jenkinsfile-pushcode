@@ -31,6 +31,7 @@ pipeline {
         }
         stage('run ansible') {
             steps {
+                sh 'touch git_changes.txt'
                 ansiblePlaybook colorized: true, 
                 extras: '-e "jenkins_pipeline_path=${workspace}"', 
                 inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
