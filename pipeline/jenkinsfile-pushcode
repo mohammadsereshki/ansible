@@ -9,16 +9,6 @@ pipeline {
       ansiColor('xterm')
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
     }
-    triggers {
-        GenericTrigger(
-            genericVariables: [
-                [key: 'repository', value: 'https://github.com/mohammadsereshki/python_test.git'],
-                [key: 'branch', value: 'uat']
-            ],
-            causeString: 'Triggered by webhook',
-            printContributedVariables: true
-        )
-    }
     stages {
         stage('CLONE  ansible repo') {
             steps {
