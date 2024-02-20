@@ -15,7 +15,7 @@ pipeline {
             steps {
              
                 wrap([$class: 'BuildUser']) {
-                  def EMAIL_TO = env.BUILD_USER_EMAIL
+                  sh 'echo "${BUILD_USER_EMAIL}"'
                   
                 }
                 sh 'printenv'
