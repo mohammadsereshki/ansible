@@ -11,7 +11,17 @@ pipeline {
     }
     
     stages {
-        
+        stage('build user') {
+
+            steps {
+
+                wrap([$class: 'BuildUser']) {
+                  sh 'echo "${BUILD_USER_EMAIL}"'
+                  sh 'set BUILD_USER_EMAIL="${BUILD_USER_EMAIL}"'
+                }
+                sh 'printenv'
+              }
+         }
         stage('CLONE  ansible repo') {
             steps {
                 checkout changelog: false, 
@@ -43,13 +53,7 @@ pipeline {
             
         }
     }
-    environment {
-                wrap([$class: 'BuildUser']) {
-                  
-                EMAIL_TO = "${BUILD_USER_EMAIL}"
-                }
 
-    }
     post {
 
         success {
