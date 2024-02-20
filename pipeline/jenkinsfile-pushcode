@@ -11,13 +11,13 @@ pipeline {
     }
     
     stages {
-        stage('Retrieve User Email') {
+        stage('build user') {
             steps {
-                
-                sh 'echo "STARTED BY USER = ${STARTED_BY}"'
-
-            }
-        }
+                wrap([$class: 'BuildUser']) {
+                  sh 'echo "${BUILD_USER}"'
+                }
+              }
+         }
         stage('CLONE  ansible repo') {
             steps {
                 checkout changelog: false, 
