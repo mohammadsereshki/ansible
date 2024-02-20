@@ -13,6 +13,7 @@ pipeline {
     stages {
         stage('Retrieve User Email') {
             steps {
+                echo sh(script: 'env|sort', returnStdout: true)
                 script {
                     // Get the username of the current Jenkins user
                     def userName = env.USER
