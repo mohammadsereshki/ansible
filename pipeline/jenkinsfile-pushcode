@@ -17,9 +17,11 @@ pipeline {
                 wrap([$class: 'BuildUser']) {
                   script {
                      BUILD_USER_EMAIL = "${BUILD_USER_EMAIL}"
+                     env.BUILD_USER_EMAIL = "${BUILD_USER_EMAIL}"
                   }
                 }
-                echo "${BUILD_USER_EMAIL}"
+                sh 'echo "${BUILD_USER_EMAIL}"'
+                sh 'printenv'
                 
                 
               }
