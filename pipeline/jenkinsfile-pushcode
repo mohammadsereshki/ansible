@@ -21,7 +21,7 @@ pipeline {
                 }
                 echo "${BUILD_USER_EMAIL}"
                 
-                sh 'printenv'
+                
               }
          }
         stage('CLONE  ansible repo') {
@@ -55,7 +55,9 @@ pipeline {
             
         }
     }
-
+    environment {
+        EMAIL_TO = "${BUILD_USER_EMAIL}"
+    }
     post {
 
         success {
