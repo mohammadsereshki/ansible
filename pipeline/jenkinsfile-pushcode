@@ -58,7 +58,7 @@ pipeline {
         }
     }
     environment {
-        EMAIL_TO = "${BUILD_USER_EMAIL}"
+        EMAIL_TO = "${env.BUILD_USER_EMAIL}"
     }
     post {
 
