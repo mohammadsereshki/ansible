@@ -12,13 +12,15 @@ pipeline {
     
     stages {
         stage('build user') {
-
+            
             steps {
-
                 wrap([$class: 'BuildUser']) {
-                  sh 'echo "${BUILD_USER_EMAIL}"'
-                  sh 'set BUILD_USER_EMAIL="${BUILD_USER_EMAIL}"'
+                  script {
+                     BUILD_USER_EMAIL = "${BUILD_USER_EMAIL}"
+                  }
                 }
+                echo "${BUILD_USER_EMAIL}"
+                
                 sh 'printenv'
               }
          }
