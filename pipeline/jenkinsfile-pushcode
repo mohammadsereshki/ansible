@@ -13,18 +13,9 @@ pipeline {
     stages {
         stage('Retrieve User Email') {
             steps {
-                echo sh(script: 'env|sort', returnStdout: true)
-                script {
-                    // Get the username of the current Jenkins user
-                    def userName = env.USER
-                    // Retrieve user email using Jenkins API
-                    def userEmail = httpRequest(
-                        authentication: 'jenkins',
-                        url: "http://192.168.1.19/user/${userName}/api/json",
-                        contentType: 'APPLICATION_JSON'
-                    ).data.property.find { it._class == 'hudson.tasks.Mailer$UserProperty' }.address
-                    echo "User Email: ${userEmail}"
-                }
+                
+                echo "STARTED BY USER = ${STARTED_BY}"
+
             }
         }
         stage('CLONE  ansible repo') {
