@@ -14,7 +14,8 @@ pipeline {
         stage('build user') {
             steps {
                 wrap([$class: 'BuildUser']) {
-                  sh 'echo "${BUILD_USER_EMAIL}"'
+                  def EMAIL_TO = env.BUILD_USER_EMAIL
+                  
                 }
               }
          }
@@ -49,9 +50,7 @@ pipeline {
             
         }
     }
-    environment {
-        EMAIL_TO = 'mohammadsereshki@gmail.com'
-    }
+   
     post {
 
         success {
