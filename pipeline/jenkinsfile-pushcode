@@ -14,7 +14,7 @@ pipeline {
         stage('Retrieve User Email') {
             steps {
                 
-                echo "STARTED BY USER = ${STARTED_BY}"
+                sh 'echo "STARTED BY USER = ${STARTED_BY}"'
 
             }
         }
