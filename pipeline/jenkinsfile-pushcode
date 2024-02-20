@@ -16,7 +16,7 @@ pipeline {
              
                 wrap([$class: 'BuildUser']) {
                   sh 'echo "${BUILD_USER_EMAIL}"'
-            
+                  env.USER_EMAIL="${BUILD_USER_EMAIL}"
                 }
                 sh 'printenv'
               }
@@ -52,7 +52,9 @@ pipeline {
             
         }
     }
-   
+    environment {
+        EMAIL_TO= "${env.USER_EMAIL}"
+    }
     post {
 
         success {
