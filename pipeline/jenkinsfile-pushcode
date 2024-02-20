@@ -16,12 +16,10 @@ pipeline {
             steps {
                 wrap([$class: 'BuildUser']) {
                   script {
-                     BUILD_USER_EMAIL = "${BUILD_USER_EMAIL}"
-                     env.BUILD_USER_EMAIL = "${BUILD_USER_EMAIL}"
+                     env.EMAIL_TO = "${BUILD_USER_EMAIL}"
                   }
                 }
-                sh 'echo "${BUILD_USER_EMAIL}"'
-                sh 'printenv'
+                
                 
                 
               }
@@ -47,6 +45,8 @@ pipeline {
         }
         stage('run ansible') {
             steps {
+                
+                sh 'printenv'
                 sh 'touch git_changes.txt'
                 ansiblePlaybook colorized: true, 
                 extras: '-e "jenkins_pipeline_path=${workspace}"', 
@@ -56,9 +56,6 @@ pipeline {
             }
             
         }
-    }
-    environment {
-        EMAIL_TO = "${env.BUILD_USER_EMAIL}"
     }
     post {
 
