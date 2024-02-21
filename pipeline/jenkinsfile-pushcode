@@ -16,7 +16,7 @@ pipeline {
             steps {
                 wrap([$class: 'BuildUser']) {
                   script {
-                        echo "====>>>>>>>>>>>>>>>>> ${BUILD_USER_EMAIL} "
+                        echo "====>>>>>>>>>>>>>>>>> ${BUILD_USER_EMAIL}============== "
                         if ("${BUILD_USER_EMAIL}" != "")
                             sh 'echo "email is defained"'
                             env.EMAIL_TO = "${BUILD_USER_EMAIL}"
