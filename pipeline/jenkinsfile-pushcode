@@ -16,7 +16,7 @@ pipeline {
             steps {
                 wrap([$class: 'BuildUser']) {
                   script {
-                        env.EMAIL_CC=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/yahoo.com/gmail.com/' ")
+                        env.EMAIL_CC=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/yahoofff.com/gmail.com/' ")
                         env.EMAIL_TO = "${BUILD_USER_EMAIL}" 
                             
                         sh 'printenv'
