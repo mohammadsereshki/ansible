@@ -11,7 +11,7 @@ pipeline {
     }
     
     stages {
-        stage('build user') {
+        stage('setup email') {
             
             steps {
                 wrap([$class: 'BuildUser']) {
