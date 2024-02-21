@@ -17,10 +17,10 @@ pipeline {
                 wrap([$class: 'BuildUser']) {
                   script {
                         echo "====>>>>>>>>>>>>>>>>> ${BUILD_USER_EMAIL}============== "
-                        if ("${BUILD_USER_EMAIL}" != "")
+                        if ("${BUILD_USER_EMAIL}" != "${BUILD_USER}")
                             sh 'echo "email is defained"'
                             env.EMAIL_TO = "${BUILD_USER_EMAIL}"
-                        if ("${BUILD_USER_EMAIL}" == "")
+                        if ("${BUILD_USER_EMAIL}" == "${BUILD_USER}")
                             env.EMAIL_TO = "mohammadsershki@gmail.com"
                   }
                 }
