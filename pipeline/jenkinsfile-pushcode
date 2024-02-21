@@ -16,8 +16,9 @@ pipeline {
             steps {
                 wrap([$class: 'BuildUser']) {
                   script {
-                        sh "export MY_VARIABLE=$(echo ${BUILD_USER_EMAIL} | sed 's/yahoo.com/gmail.com/g')"
-                        env.EMAIL_TO =  "${BUILD_USER_EMAIL}" |sed 's/yahoo.com/gmail.com/g'
+                        env.EMAIL_TO =  "$(echo ${BUILD_USER_EMAIL} | sed 's/yahoo.com/gmail.com/')"
+                        sh 'printenv'
+
                   }
                 }
                 
