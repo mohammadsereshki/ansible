@@ -32,3 +32,10 @@ remote_repo_url: /home/appuser/git-server/project.git
 jenkins_pipeline_path: "/git-repo"
 local_repo_path: "{{ jenkins_pipeline_path }}/python_test"
 remote_repo_path: /home/appuser/app_data
+
+
+
+APP_NAME: "python_test"
+DOCKER_FILE_PATH: "{{ jenkins_pipeline_path }}/{{ APP_NAME }}/deployment"
+DOCKER_IMAGE_NAME: "mytest"
+DOCKER_IMAGE_TAG: "v1"
