@@ -6,6 +6,5 @@
     - community.docker
 
   roles:
-     - {role: build_image_role , delegate_to: localhost}
-  
+     - role: build_deploy_image
 
