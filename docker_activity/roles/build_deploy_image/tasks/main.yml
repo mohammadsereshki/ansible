@@ -19,17 +19,17 @@
   delegate_to: localhost
 
 
-
 - name: Archive an image
   community.docker.docker_image:
-    name: "{{ DOCKER_IMAGE_NAME }}"
-    tag: "{{ DOCKER_IMAGE_TAG }}"
+    name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
     archive_path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
     source: local
     state: present
+    debug: true
     docker_host: "unix:///var/run/docker.sock"
   delegate_to: localhost
   register:   docker_archive_reg
+  
 
 - name: print build logs
   debug:
