@@ -49,10 +49,7 @@ pipeline {
         }
         stage('Create  Docker Image'){
             steps {
-
-                sh "cd ${workspace}/python_test"
-
-                sh "docker build . -t sampleapp:${env.BUILD_ID}"
+                sh "cd ${workspace}/python_test; docker build . -t sampleapp:${env.BUILD_ID}"
             }
         }
 
