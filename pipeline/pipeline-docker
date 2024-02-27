@@ -51,7 +51,7 @@ pipeline {
             steps {
                 
                 sh 'printenv'
-                sh 'echo    DOCKER_IMAGE_TAG=${env.BUILD_ID}'
+                sh 'echo  "${env.BUILD_ID}"'
 
                 ansiblePlaybook colorized: true, 
                 extras: '-e "jenkins_pipeline_path=${workspace}"',
