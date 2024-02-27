@@ -26,9 +26,9 @@
     archive_path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar
     source: local
   delegate_to: localhost
-  register:   docker_archive
+  register:   docker_archive_reg
 
 - name: print build logs
   debug:
     var: docker_archive_reg
-  delegate_to: localhost
+  delegate_to: localhost  
