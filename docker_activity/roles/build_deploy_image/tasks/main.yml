@@ -23,7 +23,7 @@
   community.docker.docker_image:
     name: "{{ DOCKER_IMAGE_NAME }}"
     tag: "{{ DOCKER_IMAGE_TAG }}"
-    archive_path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar
+    archive_path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
     source: local
   delegate_to: localhost
   register:   docker_archive_reg
