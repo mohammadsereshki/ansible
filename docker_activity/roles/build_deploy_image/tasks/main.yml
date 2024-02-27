@@ -8,7 +8,7 @@
       dockerfile: Dockerfile
     name: "{{ DOCKER_IMAGE_NAME }}"
     tag: "{{ DOCKER_IMAGE_TAG }}"
-    path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
+    archive_path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
     force_tag: true
     source: build
   delegate_to: localhost
