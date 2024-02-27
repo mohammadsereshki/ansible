@@ -52,6 +52,11 @@ pipeline {
                 sh "cd ${workspace}/python_test; docker build . -t sampleapp:${env.BUILD_ID}"
             }
         }
+        stage('save  Docker Image'){
+            steps {
+                sh "cd ${workspace}/python_test; docker save   sampleapp:${env.BUILD_ID} > sampleapp_${env.BUILD_ID}.tar"
+            }
+        }
 
     }
     post {
