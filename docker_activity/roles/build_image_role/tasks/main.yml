@@ -10,6 +10,7 @@
     tag: "{{ DOCKER_IMAGE_TAG }}"
     force_tag: true
     source: build
+  register:   docker_build_reg
 
 - name: print build logs
   debug:
