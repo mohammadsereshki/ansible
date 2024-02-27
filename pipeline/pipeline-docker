@@ -53,7 +53,7 @@ pipeline {
                 sh 'printenv'
 
                 ansiblePlaybook colorized: true, 
-                extras: 'jenkins_pipeline_path="${workspace}",DOCKER_IMAGE_TAG="${env.BUILD_ID}"'
+                extras: '-e jenkins_pipeline_path="${workspace}" -e DOCKER_IMAGE_TAG="${env.BUILD_ID}"'
                 inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
                 playbook: '${workspace}/ansible/docker_activity/main.yml', 
                 vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
