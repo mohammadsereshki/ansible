@@ -1,0 +1,34 @@
+---
+# tasks file for build_image_role
+
+- name: Build an image
+  community.docker.docker_image:
+    build:
+      path: "{{ DOCKER_FILE_PATH }}"
+      dockerfile: Dockerfile
+    name: "{{ DOCKER_IMAGE_NAME }}"
+    tag: "{{ DOCKER_IMAGE_TAG }}"
+    force_tag: true
+    source: build
+  delegate_to: localhost
+  register:   docker_build_reg
+
+- name: print build logs
+  debug:
+    var: docker_build_reg
+  delegate_to: localhost
+
+
+- name: Archive an image
+  community.docker.docker_image:
+    name: "{{ DOCKER_IMAGE_NAME }}"
+    tag: "{{ DOCKER_IMAGE_TAG }}"
+    archive_path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar
+    source: local
+  delegate_to: localhost
+  register:   docker_archive
+
+- name: print build logs
+  debug:
+    var: docker_archive_reg
+  delegate_to: localhost

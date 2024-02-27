@@ -1,0 +1,4 @@
+---
+# defaults file for pipeline_creation
+pipelines:
+ - { 'pipeline_name': 'test_first_pipeline_ansible', 'pipeline_file_path': 'pipeline/jenkinsfile-pushcode' , 'git_url': 'https://github.com/mohammadsereshki/ansible.git', 'git_branch': 'main', 'git_credential': 'GITHUB_TOKEN' }

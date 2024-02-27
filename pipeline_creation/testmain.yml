@@ -1,0 +1,15 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: /bin/python3
+  vars_files:
+   - vars/main.yml
+   - defaults/main.yml
+  tasks:
+  - name: Create a jenkins job using basic authentication
+    template:
+      src: templates/pipeline_template.j2
+      dest: file.xml
+    with_items: 
+     - "{{ pipelines }}"
+    
