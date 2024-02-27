@@ -58,7 +58,7 @@ pipeline {
                     cd ${workspace};
                     mkdir Image;
                     cd Image; 
-                    docker save   sampleapp:${env.BUILD_ID} > sampleapp_${env.BUILD_ID}.tar"
+                    docker save   sampleapp:${env.BUILD_ID} > sampleapp_${env.BUILD_ID}.tar
                 '''
             }
         }
