@@ -2,7 +2,7 @@
 # tasks file for build_image_role
 
 - name: Build an image
-  community.docker.docker_image:
+  docker_image:
     build:
       path: "{{ DOCKER_FILE_PATH }}"
       dockerfile: Dockerfile
@@ -19,24 +19,51 @@
   delegate_to: localhost
 
 
-#- name: Export an image
-#  community.docker.docker_image_export:
-#    name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
-#    path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
-#  delegate_to: localhost
-#  register:   docker_archive_reg
+
 - name: Archive an image
-  community.docker.docker_image:
+  .docker_image:
     name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
     archive_path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
     source: local
     state: present
-    debug: true
     docker_host: "unix:///var/run/docker.sock"
   delegate_to: localhost
   register:   docker_archive_reg
 
-#- name: print build logs
-#  debug:
-#    var: docker_archive_reg
-#  delegate_to: localhost
+- name: print build logs
+  debug:
+    var: docker_archive_reg
+  delegate_to: localhost
+
+
+- name: Create a tar.gz archive of an image
+  archive:
+    path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
+    dest: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+    format: gz
+  delegate_to: localhost    
+
+- name: send the image file to destination servers
+  copy:
+    src: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+    dest: "/tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+
+- name: Load all image(s) from the given tar file
+  docker_image_load:
+    path: "/tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+    docker_host: "unix:///var/run/docker.sock"
+  register: load_image_result
+
+- name: Print the loaded image names
+  debug:
+    msg: "Loaded the following images: {{ load_image_result.image_names | join(', ') }}"    
+
+- name: change the latest tag to the new image file
+  docker_image_tag:
+    name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
+    repository:
+      - "{{ DOCKER_IMAGE_NAME }}:latest"
+    docker_host: "unix:///var/run/docker.sock"
+    existing_images: "overwrite"
+    
+  
