@@ -2,7 +2,7 @@
 # tasks file for build_image_role
 
 - name: Build an image
-  docker_image_build:
+  community.docker.docker_image_build:
     path: "{{ DOCKER_FILE_PATH }}"
     dockerfile: Dockerfile
     name: "{{ DOCKER_IMAGE_NAME }}"
@@ -19,7 +19,7 @@
 
 
 - name: Archive an image
-  docker_image_export:
+  community.docker.docker_image_export:
     name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
     path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
     docker_host: "unix:///var/run/docker.sock"
@@ -45,7 +45,7 @@
     dest: "/tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
 
 - name: Load all image(s) from the given tar file
-  docker_image_load:
+  community.docker.docker_image_load:
     path: "/tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
     docker_host: "unix:///var/run/docker.sock"
   register: load_image_result
@@ -55,7 +55,7 @@
     msg: "Loaded the following images: {{ load_image_result.image_names | join(', ') }}"    
 
 - name: change the latest tag to the new image file
-  docker_image_tag:
+  community.docker.docker_image_tag:
     name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
     repository:
       - "{{ DOCKER_IMAGE_NAME }}:latest"
