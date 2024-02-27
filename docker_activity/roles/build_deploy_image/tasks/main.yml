@@ -31,4 +31,4 @@
 - name: print build logs
   debug:
     var: docker_archive_reg
-  delegate_to: localhost  
+  delegate_to: localhost
