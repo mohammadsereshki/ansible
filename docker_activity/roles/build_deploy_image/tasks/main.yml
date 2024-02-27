@@ -8,6 +8,7 @@
       dockerfile: Dockerfile
     name: "{{ DOCKER_IMAGE_NAME }}"
     tag: "{{ DOCKER_IMAGE_TAG }}"
+    path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
     force_tag: true
     source: build
   delegate_to: localhost
@@ -18,12 +19,12 @@
     var: docker_build_reg
   delegate_to: localhost
 
-- name: Export an image
-  community.docker.docker_image_export:
-    name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
-    path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
-  delegate_to: localhost
-  register:   docker_archive_reg
+#- name: Export an image
+#  community.docker.docker_image_export:
+#    name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
+#    path: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
+#  delegate_to: localhost
+#  register:   docker_archive_reg
 #- name: Archive an image
 #  community.docker.docker_image:
 #    name: "{{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }}"
@@ -33,7 +34,7 @@
 #  delegate_to: localhost
 #  register:   docker_archive_reg
 
-- name: print build logs
-  debug:
-    var: docker_archive_reg
-  delegate_to: localhost
+#- name: print build logs
+#  debug:
+#    var: docker_archive_reg
+#  delegate_to: localhost
