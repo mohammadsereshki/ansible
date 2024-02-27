@@ -50,7 +50,7 @@ pipeline {
         stage('run ansible') {
             steps {
                 
-                
+                sh 'printenv'
 
                 ansiblePlaybook colorized: true, 
                 extras: '-e "jenkins_pipeline_path=${workspace}"  -e "DOCKER_IMAGE_TAG=${env.BUILD_NUMBER}"', 
