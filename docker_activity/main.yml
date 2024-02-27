@@ -4,14 +4,7 @@
   gather_facts: no
   collections:
     - community.docker
-    
-  vars:
-    - WORKSPACE_PATH: "/var/jenkins/workspace/docker_pipeline"
-    - APP_NAME: "python_test"
-   
-    - DOCKER_FILE_PATH: "{{ WORKSPACE_PATH }}/{{ APP_NAME }}/deployment"
-    - DOCKER_IMAGE_NAME: "mytest"
-    - DOCKER_IMAGE_TAG: "v1"
+
   roles:
      - {role: build_image_role , delegate_to: localhost}
   
