@@ -6,5 +6,5 @@
     - community.docker
 
   roles:
-     - build_deploy_image
+     - role: build_deploy_image
 
