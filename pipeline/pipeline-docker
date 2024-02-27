@@ -5,7 +5,7 @@ pipeline {
       disableRestartFromStage()
       disableResume()
       quietPeriod 30
-      timeout(activity: true, time: 5)
+      timeout(activity: true, time: 15)
       ansiColor('xterm')
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
     }
