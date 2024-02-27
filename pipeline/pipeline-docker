@@ -49,12 +49,8 @@ pipeline {
         }
         stage('run ansible') {
             steps {
-                
-                sh 'printenv'
-                sh 'echo  "${env.BUILD_ID}"'
-
                 ansiblePlaybook colorized: true, 
-                extras: '-e "jenkins_pipeline_path=${workspace}"',
+                extras: '-e "jenkins_pipeline_path=${workspace}  DOCKER_IMAGE_TAG=${BUILD_ID}"',
                 inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
                 playbook: '${workspace}/ansible/docker_activity/main.yml', 
                 vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
