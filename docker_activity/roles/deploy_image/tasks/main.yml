@@ -1,0 +1,23 @@
+---
+# tasks file for deploy image
+
+
+- name: send the image file to destination servers
+  copy:
+    src: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+    dest: "/tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+
+- name: Load all image(s) from the given tar file
+  shell:
+    cmd: "docker load /tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+  register: load_image_result
+
+- name: Print the loaded image names
+  debug:
+    msg: "Loaded the following images: {{ load_image_result.image_names | join(', ') }}"    
+
+- name: change the latest tag to the new image file
+  shell:
+    cmd: "docker tage {{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }} {{ DOCKER_IMAGE_NAME }}:latest"
+    
+  
