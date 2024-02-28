@@ -9,7 +9,7 @@
 
 - name: Load all image(s) from the given tar file
   shell:
-    cmd: "docker load /tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+    cmd: "docker load -i /tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
   register: load_image_result
 
 - name: Print the loaded image names
