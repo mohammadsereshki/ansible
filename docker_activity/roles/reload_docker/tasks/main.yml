@@ -9,12 +9,3 @@
 
 - debug:
     var: down_reg
-
-
-- name: load docker-compose with new images
-    cmd: "/bin/docker-compose up -d"
-    chdir: "{{ docker_compose_file_path }}"
-  register: up_reg
-
-- debug:
-    var: up_reg
