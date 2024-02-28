@@ -14,7 +14,8 @@
 
 - name: Print the loaded image names
   debug:
-    msg: "Loaded the following images: {{ load_image_result.image_names | join(', ') }}"    
+    var: load_image_result
+    #msg: "Loaded the following images: {{ load_image_result.image_names | join(', ') }}"    
 
 - name: change the latest tag to the new image file
   shell:
