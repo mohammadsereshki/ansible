@@ -2,8 +2,6 @@
 - name: build docker image file and reload application with new image
   hosts: all 
   gather_facts: no
-  collections:
-    - community.docker
 
   roles:
      - role: deploy_image
