@@ -15,6 +15,7 @@
 - name: Print the loaded image names
   debug:
     var: load_image_result 
+    msg: "Loaded the following image: {{ load_image_result.stdout }}"
 
 - name: change the latest tag to the new image file
   shell:
