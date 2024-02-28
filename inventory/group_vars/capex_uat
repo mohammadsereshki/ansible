@@ -37,5 +37,5 @@ remote_repo_path: /home/appuser/app_data
 
 APP_NAME: "python_test"
 DOCKER_FILE_PATH: "{{ jenkins_pipeline_path }}/{{ APP_NAME }}/deployment"
-DOCKER_IMAGE_NAME: "mytest"
+DOCKER_IMAGE_NAME: "{{ APP_NAME }}"
 DOCKER_IMAGE_TAG: "v1"
