@@ -4,7 +4,7 @@
 
 - name: send the image file to destination servers
   copy:
-    src: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
+    src: "{{ jenkins_pipeline_path }}/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tar"
     dest: "/tmp/{{ DOCKER_IMAGE_NAME }}_{{ DOCKER_IMAGE_TAG }}.tgz"
 
 - name: Load all image(s) from the given tar file
