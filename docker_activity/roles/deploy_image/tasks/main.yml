@@ -14,11 +14,10 @@
 
 - name: Print the loaded image names
   debug:
-    var: load_image_result
-    #msg: "Loaded the following images: {{ load_image_result.image_names | join(', ') }}"    
+    msg: "Loaded the following images: {{ load_image_result.stdout }}   
 
 - name: change the latest tag to the new image file
   shell:
-    cmd: "docker tage {{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }} {{ DOCKER_IMAGE_NAME }}:latest"
+    cmd: "docker tag {{ DOCKER_IMAGE_NAME }}:{{ DOCKER_IMAGE_TAG }} {{ DOCKER_IMAGE_NAME }}:latest"
     
   
