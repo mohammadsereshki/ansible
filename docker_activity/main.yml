@@ -5,4 +5,5 @@
 
   roles:
      - role: deploy_image
+     - role: reload_docker
 
