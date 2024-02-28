@@ -7,5 +7,16 @@
     chdir: "{{ docker_compose_file_path }}"
   register: down_reg
 
-- debug:
+- name: print stop result
+  debug:
     var: down_reg
+
+- name: start docker-compose
+  shell:
+    cmd: "/bin/docker-compose up -d "
+    chdir: "{{ docker_compose_file_path }}"
+  register: up_reg
+
+- name: print start result
+  debug:
+    var: up_reg
