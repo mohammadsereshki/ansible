@@ -14,7 +14,7 @@
 
 - name: Print the loaded image names
   debug:
-    var: load_imahe_result 
+    var: load_image_result 
 
 - name: change the latest tag to the new image file
   shell:
