@@ -51,8 +51,8 @@ pipeline {
             steps {
                 sh '''
                     cd "${workspace}/python_test/deployment";
-                    docker build . -t python_test:${BUILD_ID};
-                    docker save python_test:${BUILD_ID}|gz > python_test_${BUILD_ID}.tgz
+                    docker build . -t "python_test:${BUILD_ID}";
+                    docker save "python_test:${BUILD_ID}"|gz > "python_test_${BUILD_ID}.tgz"
                 '''
                 
             }
