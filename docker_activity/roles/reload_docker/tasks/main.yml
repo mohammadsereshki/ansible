@@ -3,7 +3,7 @@
 
 - name: stop docker-compose
   shell:
-    cmd: "docker-compose down "
+    cmd: "docker-compose down"
     chdir: "{{ docker_compose_file_path }}"
   register: down_reg
 
