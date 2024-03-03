@@ -17,6 +17,7 @@ pipeline {
                   script {
                         env.EMAIL_TO=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/yahoo.com/gmail.com/' ")
                         env.APP_NAME= "python_test"       
+                        env.APP_NAME_LOWER= env.APP_NAME.toLowerCase()
                         sh 'printenv'
                   }
                 }
@@ -45,10 +46,10 @@ pipeline {
         stage('build docker and export') {
             agent { label 'master' }
             steps {
-                sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME}:${BUILD_ID};docker save ${APP_NAME}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME}_${BUILD_ID}.tgz"
+                sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME_LOWER}:${BUILD_ID};docker save ${APP_NAME_LOWER}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz"
                 sh 'ls -l' 
                 sh 'pwd'
-                stash includes: "${APP_NAME}_${BUILD_ID}.tgz", name: 'Docker_image_file'
+                stash includes: "${APP_NAME_LOWER}_${BUILD_ID}.tgz", name: 'Docker_image_file'
             }   
         }
         stage('unstash docker image file') {
