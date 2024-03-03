@@ -48,6 +48,7 @@ pipeline {
                 sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME}:${BUILD_ID};docker save ${APP_NAME}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME}_${BUILD_ID}.tgz"
                 sh 'ls -l' 
                 sh 'pwd'
+                stash includes: "${APP_NAME}_${BUILD_ID}.tgz", name: 'Docker_image_file'
             }   
         }
     }
