@@ -51,5 +51,14 @@ pipeline {
                 stash includes: "${APP_NAME}_${BUILD_ID}.tgz", name: 'Docker_image_file'
             }   
         }
+        stage('unstash docker image file') {
+            steps {
+                
+                unstash 'Docker_image_file'
+                sh 'ls -l' 
+                sh 'pwd'
+                
+            }   
+        }
     }
 }
