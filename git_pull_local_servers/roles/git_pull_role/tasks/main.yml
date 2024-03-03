@@ -1,0 +1,11 @@
+---
+- name: Perform a Git pull from Repository in GitLab
+  expect:
+    command: "git pull {{ destination_remote }} {{ destination_branch }}"
+    chdir: "{{ local_repo_path }}"
+    responses:
+     (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
+     (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
+
+
+

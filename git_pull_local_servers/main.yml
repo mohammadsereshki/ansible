@@ -1,0 +1,9 @@
+---
+- name: Pull from GitLab Repository  and Push to Another Server Repository
+  hosts: all 
+  gather_facts: no
+    
+  roles:
+     - role: git_pull_role
+  
+
