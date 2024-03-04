@@ -49,16 +49,17 @@ pipeline {
                 sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME_LOWER}:${BUILD_ID};docker save ${APP_NAME_LOWER}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz;docker rmi -f ${APP_NAME_LOWER}:${BUILD_ID}"
                 sh 'ls -l' 
                 sh 'pwd'
-                archiveArtifacts artifacts: "${APP_NAME_LOWER}_${BUILD_ID}.tgz", followSymlinks: false
-                
+                env.DOCKER_FILE_MASTER="${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz"
             }   
         }
-        stage('unstash docker image file') {
+        stage('copy file from master jenkins to agent') {
             steps {
-                unarchive mapping: ["${APP_NAME_LOWER}_${BUILD_ID}.tgz": '.']
-                
-                sh 'ls -l' 
-                sh 'pwd'
+                                
+                ansiblePlaybook colorized: true,
+                extras: '-e "jenkins_pipeline_path=${workspace}  DOCKER_IMAGE_TAG=${BUILD_ID}"',
+                inventory: '${workspace}/ansible/inventory/capex_uat.ini',
+                playbook: '${workspace}/ansible/docker_activity/main.yml',
+                vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
                 
             }   
         }
