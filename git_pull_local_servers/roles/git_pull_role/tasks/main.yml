@@ -3,10 +3,11 @@
   expect:
     command: "git pull {{ remote_srv_remote }} {{ remote_srv_branch }}"
     chdir: "/home/appuser/python_test"
-    register: gitdiff
+    
     responses:
      (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
      (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
+  register: gitdiff   
   
 
 - name: print git diff
