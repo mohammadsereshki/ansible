@@ -61,8 +61,8 @@ pipeline {
                 
                 withCredentials([usernamePassword(credentialsId: 'JENKINS_SERVER', passwordVariable: 'ANSIBLE_PASS', usernameVariable: 'ANSIBLE_USER')]) {       
                     sh """
-                        echo "[jenkins]\n192.168.1.10\n[jenkins:vars]\nansible_ssh_common_args=\"-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" > ${workspace}/inv.ini"
-                        ansible jenkins -i inv.ini -m fetch -a "src=${DOCKER_FILE_MASTER} dest=${workspace} validate_checksum=false flat=true" -e "ansible_user=${ANSIBLE_USER}" -e "ansible_ssh_pass=${ANSIBLE_PASS}"
+                        
+                        ansible jenkins -i ${workspace}/inventory/inv.ini -m fetch -a "src=${DOCKER_FILE_MASTER} dest=${workspace} validate_checksum=false flat=true" -e "ansible_user=${ANSIBLE_USER}" -e "ansible_ssh_pass=${ANSIBLE_PASS}"
                     """
                 }
                 
