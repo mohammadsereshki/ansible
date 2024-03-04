@@ -93,7 +93,8 @@ pipeline {
              
         }
         always {
-            node(null){
+            cleanWs()
+            node('master'){
                 cleanWs()
             }
         }
