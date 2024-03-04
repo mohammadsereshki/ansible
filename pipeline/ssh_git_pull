@@ -40,7 +40,7 @@ pipeline {
 
         stage('run ansible') {
             steps {
-                
+                sh 'echo "" >  /tmp/git_changes.txt'
                 withCredentials([usernamePassword(credentialsId: 'GITHUB_TOKEN', passwordVariable: 'GIT_PASSWORD_VAR', usernameVariable: 'GIT_USERNAME_VAR')]) {
                     ansiblePlaybook colorized: true, 
                     extras: '-e "jenkins_pipeline_path=${workspace}"  -e "GIT_USERNAME_VAL=${GIT_USERNAME_VAR}" -e "GIT_PASSWORD_VAL=${GIT_PASSWORD_VAR}" ', 
@@ -55,7 +55,7 @@ pipeline {
     post {
 
         success {
-            mail body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br></body></html>",
+            mail body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br>readFile '/tmp/git_changes.txt'}</</body></html>",
             cc: '', charset: 'UTF-8',  mimeType: 'text/html', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
             
         }
