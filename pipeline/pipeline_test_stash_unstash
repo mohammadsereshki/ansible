@@ -49,7 +49,11 @@ pipeline {
                 sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME_LOWER}:${BUILD_ID};docker save ${APP_NAME_LOWER}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz;docker rmi -f ${APP_NAME_LOWER}:${BUILD_ID}"
                 sh 'ls -l' 
                 sh 'pwd'
-                env.DOCKER_FILE_MASTER="/home/jenkins/jenkins_data/workspace/pipeline_test_stash_unstash/${APP_NAME_LOWER}_${BUILD_ID}.tgz"
+                script {
+                        env.DOCKER_FILE_MASTER="/home/jenkins/jenkins_data/workspace/pipeline_test_stash_unstash/${APP_NAME_LOWER}_${BUILD_ID}.tgz"
+                        sh 'printenv'
+                  }
+                
             }   
         }
         stage('copy file from master jenkins to agent') {
