@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    options {
+      disableConcurrentBuilds()
+      disableRestartFromStage()
+      disableResume()
+      quietPeriod 30
+      timeout(activity: true, time: 15)
+      ansiColor('xterm')
+      buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
+    }
+    
+    stages {
+        
+        stage('ssh to remote server') {
+            
+            steps {
+                sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME}:${BUILD_ID};docker save ${APP_NAME}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME}_${BUILD_ID}.tgz"
+                
+                
+            }
+            
+        }
+        
+
+    }
+
+}
