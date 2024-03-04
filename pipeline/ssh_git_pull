@@ -5,24 +5,69 @@ pipeline {
       disableRestartFromStage()
       disableResume()
       quietPeriod 30
-      timeout(activity: true, time: 15)
+      timeout(activity: true, time: 5)
       ansiColor('xterm')
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
     }
     
     stages {
-        
-        stage('ssh to remote server') {
+        stage('setup email') {
             
             steps {
-                sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME}:${BUILD_ID};docker save ${APP_NAME}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME}_${BUILD_ID}.tgz"
+                wrap([$class: 'BuildUser']) {
+                  script {
+                        env.EMAIL_TO=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/@.*//' |sed 's/\$/@gmail.com/' ")
+                        
+                            
+                        sh 'printenv'
+
+                  }
+                }
                 
                 
+                
+              }
+         }
+        stage('CLONE  ansible repo') {
+            steps {
+                checkout changelog: false, 
+                poll: false, 
+                scm: scmGit(branches: [[name: '*/**']],
+                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible'], localBranch('main')],
+                userRemoteConfigs: [[credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/mohammadsereshki/ansible.git']])
+            }
+        }
+
+        stage('run ansible') {
+            steps {
+                
+                withCredentials([usernamePassword(credentialsId: 'GITHUB_TOKEN', passwordVariable: 'GIT_PASSWORD_VAR', usernameVariable: 'GIT_USERNAME_VAR')]) {
+                    ansiblePlaybook colorized: true, 
+                    extras: '-e "jenkins_pipeline_path=${workspace}" -e ', 
+                    inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
+                    playbook: '${workspace}/ansible/git_pull_local_servers/main.yml', 
+                    vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
+                }
             }
             
         }
-        
-
     }
+    post {
 
+        success {
+            mail body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br> ${readFile 'git_changes.txt'}</body></html>",
+            cc: '', charset: 'UTF-8',  mimeType: 'text/html', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
+            
+        }
+        failure {
+            mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
+            cc: '', charset: 'UTF-8',  mimeType: 'text/html', replyTo: '', subject: "Jenkins build failed ${env.JOB_NAME} Build # ${env.BUILD_NUMBER} ", to: "${env.EMAIL_TO}"
+             
+        }
+        unstable {
+            mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
+            cc: '', charset: 'UTF-8',  mimeType: 'text/html', replyTo: '', subject: "Jenkins build unstable: ${env.JOB_NAME} Build # ${env.BUILD_NUMBER} ", to: "${env.EMAIL_TO}"
+             
+        }
+    }
 }
