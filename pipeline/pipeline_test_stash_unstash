@@ -46,7 +46,7 @@ pipeline {
         stage('build docker and export') {
             agent { label 'master' }
             steps {
-                sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME_LOWER}:${BUILD_ID};docker save ${APP_NAME_LOWER}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz"
+                sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME_LOWER}:${BUILD_ID};docker save ${APP_NAME_LOWER}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz;docker rmi -f ${APP_NAME_LOWER}:${BUILD_ID}"
                 sh 'ls -l' 
                 sh 'pwd'
                 archiveArtifacts artifacts: "${APP_NAME_LOWER}_${BUILD_ID}.tgz", followSymlinks: false
