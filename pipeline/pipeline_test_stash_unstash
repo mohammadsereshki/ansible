@@ -98,11 +98,6 @@ pipeline {
             cc: '', charset: 'UTF-8',  mimeType: 'text/html', replyTo: '', subject: "Jenkins build unstable: ${env.JOB_NAME} Build # ${env.BUILD_NUMBER} ", to: "${env.EMAIL_TO}"
              
         }
-        always {
-            cleanWs()
-            node('master'){
-                cleanWs()
-            }
-        }
+
     }
 }
