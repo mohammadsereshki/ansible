@@ -58,13 +58,8 @@ pipeline {
         }
         stage('copy file from master jenkins to agent') {
             steps {
-                
-                withCredentials([usernamePassword(credentialsId: 'JENKINS_SERVER', passwordVariable: 'ANSIBLE_PASS', usernameVariable: 'ANSIBLE_USER')]) {       
-                    sh """
-                        
-                        ansible jenkins -i ${workspace}/inventory/inv.ini -m fetch -a "src=${DOCKER_FILE_MASTER} dest=${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz validate_checksum=false flat=true" -e "ansible_user=${ANSIBLE_USER}" -e "ansible_ssh_pass=${ANSIBLE_PASS}"
-                    """
-                }
+                ansibleAdhoc(credentialsId: 'JENKINS_SERVER', inventory: "${workspace}/inventory/inv.ini", hosts: 'jenkins', module: 'fetch' , moduleArguments: "src=${DOCKER_FILE_MASTER} dest=${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz validate_checksum=false flat=true"  )
+
                 
             }   
         }
