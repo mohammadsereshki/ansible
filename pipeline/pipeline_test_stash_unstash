@@ -93,11 +93,9 @@ pipeline {
              
         }
         always {
-            cleanWs()
-        }
-        cleanup {
-            agent { label 'master' }
-            cleanWs()
+            node(null){
+                cleanWs()
+            }
         }
     }
 }
