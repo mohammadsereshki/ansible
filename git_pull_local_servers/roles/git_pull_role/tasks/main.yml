@@ -1,9 +1,13 @@
 ---
-- name: check git diff on remote server to be sure no one changed any file there
-  command:
-    cmd: "git diff HEAD --stat"
+- name: Perform a Git pull from Repository in GitLab
+  expect:
+    command: "git pull {{ remote_srv_remote }} {{ remote_srv_branch }}"
     chdir: "/home/appuser/python_test"
-  register: gitdiff
+    register: gitdiff
+    responses:
+     (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
+     (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
+  
 
 - name: print git diff
   debug:
@@ -15,13 +19,8 @@
     dest: "/tmp/git_changes.txt"
   delegate_to: localhost 
 
-- name: Perform a Git pull from Repository in GitLab
-  expect:
-    command: "git pull {{ remote_srv_remote }} {{ remote_srv_branch }}"
-    chdir: "/home/appuser/python_test"
-    responses:
-     (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
-     (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
+
+     
 
 
 
