@@ -43,7 +43,7 @@ pipeline {
                 
                 withCredentials([usernamePassword(credentialsId: 'GITHUB_TOKEN', passwordVariable: 'GIT_PASSWORD_VAR', usernameVariable: 'GIT_USERNAME_VAR')]) {
                     ansiblePlaybook colorized: true, 
-                    extras: '-e "jenkins_pipeline_path=${workspace}"  GIT_USERNAME_VAL=${GIT_USERNAME_VAR}  GIT_PASSWORD_VAL=${GIT_PASSWORD_VAR} ', 
+                    extras: '-e "jenkins_pipeline_path=${workspace}"  -e "GIT_USERNAME_VAL=${GIT_USERNAME_VAR}" -e "GIT_PASSWORD_VAL=${GIT_PASSWORD_VAR}" ', 
                     inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
                     playbook: '${workspace}/ansible/git_pull_local_servers/main.yml', 
                     vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
