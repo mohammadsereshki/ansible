@@ -49,17 +49,18 @@ pipeline {
                 sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME_LOWER}:${BUILD_ID};docker save ${APP_NAME_LOWER}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz;docker rmi -f ${APP_NAME_LOWER}:${BUILD_ID}"
                 sh 'ls -l' 
                 sh 'pwd'
-                env.DOCKER_FILE_MASTER="${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz"
+                env.DOCKER_FILE_MASTER="/home/jenkins/jenkins_data/workspace/pipeline_test_stash_unstash/${APP_NAME_LOWER}_${BUILD_ID}.tgz"
             }   
         }
         stage('copy file from master jenkins to agent') {
             steps {
-                                
-                ansiblePlaybook colorized: true,
-                extras: '-e "jenkins_pipeline_path=${workspace}  DOCKER_IMAGE_TAG=${BUILD_ID}"',
-                inventory: '${workspace}/ansible/inventory/capex_uat.ini',
-                playbook: '${workspace}/ansible/docker_activity/main.yml',
-                vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
+                
+                withCredentials([usernamePassword(credentialsId: 'JENKINS_SERVER', passwordVariable: 'ANSIBLE_PASSWORD', usernameVariable: 'ANSIBLE_USERNAME')]) {       
+                    sh """
+                        echo "[jenkins]\n192.168.1.10\n[jenkins:vars]\nansible_ssh_common_args=\"-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" > inv.ini"
+                        ansible jenkins -i inv.ini -m fetch -a "src=${DOCKER_FILE_MASTER} dest=${workspace} validate_checksum=false flat=true" -e "ansible_user=${ANSIBLE_USER}" -e "ansible_ssh_pass=${ANSIBLE_PASSWORD}"
+                    """
+                }
                 
             }   
         }
