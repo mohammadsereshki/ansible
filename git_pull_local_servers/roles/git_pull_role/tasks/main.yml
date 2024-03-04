@@ -7,6 +7,11 @@
     responses:
      (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
      (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
+
+- name: get latest changes
+  shell:
+    cmd: "git show HEAD"
+    chdir: "/home/appuser/python_test"
   register: gitdiff   
   
 
