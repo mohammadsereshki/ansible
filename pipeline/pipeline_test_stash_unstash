@@ -49,13 +49,14 @@ pipeline {
                 sh "cd ${workspace}/python_test/deployment;docker build . -t ${APP_NAME_LOWER}:${BUILD_ID};docker save ${APP_NAME_LOWER}:${BUILD_ID} |gzip  > ${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz"
                 sh 'ls -l' 
                 sh 'pwd'
-                stash includes: "${APP_NAME_LOWER}_${BUILD_ID}.tgz", name: 'Docker_image_file'
+                archiveArtifacts artifacts: "${APP_NAME_LOWER}_${BUILD_ID}.tgz", followSymlinks: false
+                
             }   
         }
         stage('unstash docker image file') {
             steps {
+                unarchive mapping: ["${APP_NAME_LOWER}_${BUILD_ID}.tgz": '.']
                 
-                unstash 'Docker_image_file'
                 sh 'ls -l' 
                 sh 'pwd'
                 
