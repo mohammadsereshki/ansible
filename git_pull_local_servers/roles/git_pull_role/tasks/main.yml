@@ -1,4 +1,18 @@
 ---
+- name: check git diff on remote server to be sure no one changed any file there
+  command:
+    cmd: "git diff HEAD --stat"
+    chdir: "/home/appuser/python_test"
+  register: gitdiff
+
+
+
+- name: Creating a file with content
+  copy:
+    content: "{{ gitdiff.stdout_lines | join('<br>') }}"
+    dest: "/tmp/git_changes.txt"
+  delegate_to: localhost 
+
 - name: Perform a Git pull from Repository in GitLab
   expect:
     command: "git pull {{ remote_srv_remote }} {{ remote_srv_branch }}"
