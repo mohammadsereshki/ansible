@@ -5,7 +5,9 @@
     chdir: "/home/appuser/python_test"
   register: gitdiff
 
-
+- name: print git diff
+  debug:
+    var: gitdiff
 
 - name: Creating a file with content
   copy:
