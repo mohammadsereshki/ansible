@@ -1,7 +1,7 @@
 ---
 - name: Perform a Git pull from Repository in GitLab
   expect:
-    command: "git pull {{ destination_remote }} {{ destination_branch }}"
+    command: "git pull {{ remote_srv_remote }} {{ remote_srv_branch }}"
     chdir: "/home/appuser/python_test"
     responses:
      (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
