@@ -95,5 +95,9 @@ pipeline {
         always {
             cleanWs()
         }
+        always{
+            agent { label 'master' }
+            cleanWs()
+        }
     }
 }
