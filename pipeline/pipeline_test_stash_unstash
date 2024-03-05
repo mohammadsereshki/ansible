@@ -58,7 +58,7 @@ pipeline {
         }
         stage('copy file from master jenkins to agent') {
             steps {
-                ansibleAdhoc(credentialsId: 'JENKINS_SERVER', inventory: "${workspace}/inventory/inv.ini", hosts: 'jenkins', module: 'synchronize' , moduleArguments: "src=${DOCKER_FILE_MASTER} dest=${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz verify_host=false rsync_opts='--bwlimit=10M'"  )
+                ansibleAdhoc(credentialsId: 'JENKINS_SERVER', inventory: "${workspace}/inventory/inv.ini", hosts: 'jenkins', module: 'synchronize' , moduleArguments: "src=${DOCKER_FILE_MASTER} dest=${workspace}/${APP_NAME_LOWER}_${BUILD_ID}.tgz verify_host=false mode=pull rsync_opts='--bwlimit=10M'"  )
 
                 
             }   
