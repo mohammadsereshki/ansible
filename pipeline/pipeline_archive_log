@@ -15,7 +15,7 @@ pipeline {
             steps {
                 wrap([$class: 'BuildUser']) {
                   script {
-                        env.EMAIL_TO=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/yahoo.com/gmail.com/' ")
+                        env.EMAIL_TO=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/@.*//' |sed 's/\$/@gmail.com/' ")
                         env.APP_NAME= "python_test"       
                         env.APP_NAME_LOWER= env.APP_NAME.toLowerCase()
                         sh 'printenv'
