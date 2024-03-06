@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+    options {
+      disableConcurrentBuilds()
+      disableRestartFromStage()
+      disableResume()
+      quietPeriod 30
+      timeout(activity: true, time: 15)
+      ansiColor('xterm')
+      buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
+    }
+    
+    stages {
+        stage('setup email') {
+            steps {
+                wrap([$class: 'BuildUser']) {
+                  script {
+                        env.EMAIL_TO=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/yahoo.com/gmail.com/' ")
+                        env.APP_NAME= "python_test"       
+                        env.APP_NAME_LOWER= env.APP_NAME.toLowerCase()
+                        sh 'printenv'
+                  }
+                }
+              }
+         }
+        stage('CLONE  ansible repo') {
+            steps {
+                checkout changelog: false, 
+                poll: false, 
+                scm: scmGit(branches: [[name: '*/**']],
+                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible'], localBranch('main')],
+                userRemoteConfigs: [[credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/mohammadsereshki/ansible.git']])
+            }
+        }
+        stage('run ansible') {
+            steps {
+                ansiblePlaybook colorized: true,
+                extras: '-e "jenkins_pipeline_path=${workspace} "',
+                inventory: '${workspace}/ansible/inventory/capex_uat.ini',
+                playbook: '${workspace}/ansible/archive_log/main.yml',
+                vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
+            }
+
+        }
+
+
+    }
+    post {
+
+        success {
+            mail body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br> </body></html>",
+            cc: '', charset: 'UTF-8',  mimeType: 'text/html', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
+            
+        }
+        failure {
+            mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
+            cc: '', charset: 'UTF-8',  mimeType: 'text/html', replyTo: '', subject: "Jenkins build failed ${env.JOB_NAME} Build # ${env.BUILD_NUMBER} ", to: "${env.EMAIL_TO}"
+             
+        }
+        unstable {
+            mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
+            cc: '', charset: 'UTF-8',  mimeType: 'text/html', replyTo: '', subject: "Jenkins build unstable: ${env.JOB_NAME} Build # ${env.BUILD_NUMBER} ", to: "${env.EMAIL_TO}"
+             
+        }
+
+    }
+}

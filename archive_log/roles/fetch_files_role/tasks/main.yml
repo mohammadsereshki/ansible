@@ -17,7 +17,7 @@
   fetch:
     flat: true
     src: "/tmp/{{ item.item | basename }}_last.log"
-    dest: "./archive/{{ item.item | basename }}_last.log"    
+    dest: "{{ jenkins_pipeline_path }}/archive/{{ item.item | basename }}_last.log"    
   with_items: "{{ stat_results.results }}"
   when: item.stat.exists == true
 
