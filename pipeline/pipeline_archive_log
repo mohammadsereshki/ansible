@@ -48,7 +48,7 @@ pipeline {
     post {
 
         success {
-            emailext attachmentsPattern: 'archive/*.log', body: body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br> </body></html>",
+            emailext attachmentsPattern: 'archive/*.log', body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br> </body></html>",
             mimeType: 'text/html', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
             
         }
