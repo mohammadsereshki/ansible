@@ -1,0 +1,5 @@
+Mar  6 20:33:02 rhel2 anacron[11076]: Job `cron.weekly' terminated
+Mar  6 20:33:02 rhel2 anacron[11076]: Normal exit (2 jobs run)
+Mar  6 21:01:01 rhel2 CROND[13479]: (root) CMD (run-parts /etc/cron.hourly)
+Mar  6 21:01:01 rhel2 run-parts(/etc/cron.hourly)[13479]: starting 0anacron
+Mar  6 21:01:01 rhel2 run-parts(/etc/cron.hourly)[13488]: finished 0anacron

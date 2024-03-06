@@ -40,3 +40,8 @@ DOCKER_FILE_PATH: "{{ jenkins_pipeline_path }}/{{ APP_NAME | lower }}/deployment
 DOCKER_IMAGE_NAME: "{{ APP_NAME |lower  }}"
 DOCKER_IMAGE_TAG: "v1"
 docker_compose_file_path: "/home/appuser/"
+
+
+app_log_file:
+  - "/var/log/messages"
+  - "/var/log/cron"

@@ -1,0 +1,31 @@
+---
+- name: Check to see if file exists
+  stat:
+    path: "{{ item }}"
+  register: stat_results
+  with_items: "{{ app_log_file }}"
+  ignore_errors: True
+
+- name: perform copy operation
+  shell:
+    cmd: " tail -5 {{ item.item }} > /tmp/{{ item.item | basename }}_last.log"
+  with_items: "{{ stat_results.results }}"
+  when: item.stat.exists == true
+
+
+- name: copy files to jenkins-slave
+  fetch:
+    flat: true
+    src: "/tmp/{{ item.item | basename }}_last.log"
+    dest: "./archive/{{ item.item | basename }}_last.log"    
+  with_items: "{{ stat_results.results }}"
+  when: item.stat.exists == true
+
+- name: remove files from server
+  file:
+    path: "/tmp/{{ item.item | basename }}_last.log"
+    state: absent
+  with_items: "{{ stat_results.results }}"
+  when: item.stat.exists == true
+
+

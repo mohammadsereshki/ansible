@@ -1,0 +1,5 @@
+Mar  6 21:27:35 rhel2 ansible-slurp: Invoked with src=archive/messages_last.log
+Mar  6 21:27:37 rhel2 ansible-slurp: Invoked with src=archive/cron_last.log
+Mar  6 21:28:13 rhel2 ansible-stat: Invoked with checksum_algorithm=sha1 get_checksum=True follow=False path=/var/log/messages get_md5=False get_mime=True get_attributes=True
+Mar  6 21:28:14 rhel2 ansible-stat: Invoked with checksum_algorithm=sha1 get_checksum=True follow=False path=/var/log/cron get_md5=False get_mime=True get_attributes=True
+Mar  6 21:28:16 rhel2 ansible-command: Invoked with creates=None executable=None _uses_shell=True strip_empty_ends=True _raw_params= tail -5 /var/log/messages > /tmp/messages_last.log removes=None argv=None warn=True chdir=None stdin_add_newline=True stdin=None

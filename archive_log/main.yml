@@ -1,0 +1,10 @@
+---
+- name: Pull from GitLab Repository  and Push to Another Server Repository
+  hosts: all 
+  become: true
+  gather_facts: no
+    
+  roles:
+     - role:  fetch_files_role
+  
+
