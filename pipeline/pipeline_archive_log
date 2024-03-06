@@ -48,14 +48,14 @@ pipeline {
     post {
 
         success {
-            mail body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br> </body></html>",
-            cc: '', charset: 'UTF-8',  mimeType: 'text/html', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
+            emailext attachmentsPattern: 'archive/*.log', body: body: "<html><body><br>${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}:  <br> Check console output at ${env.BUILD_URL} to view the results. <br><br><br> </body></html>",
+            mimeType: 'text/html', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
             
         }
         failure {
             mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
             cc: '', charset: 'UTF-8',  mimeType: 'text/html', replyTo: '', subject: "Jenkins build failed ${env.JOB_NAME} Build # ${env.BUILD_NUMBER} ", to: "${env.EMAIL_TO}"
-             
+
         }
         unstable {
             mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
