@@ -19,6 +19,9 @@
     chdir: "{{ remote_repo_path }}"
   register: gitreg_before
 
+- debug:
+    var: gitreg_before
+
 - name: Perform a Git pull from Repository in GitLab
   expect:
     command: "git pull {{ remote_srv_remote }} {{ remote_srv_branch }}"
@@ -28,11 +31,16 @@
      (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
   register: gitpull_reg
 
+
 - name: After pull from Git
   shell:
     cmd: "git show HEAD | head -1 | awk '{print $2}'"
     chdir: "{{ remote_repo_path }}"
   register: gitreg_after
+
+- debug:
+    var: gitreg_after
+
 
 - name: Show updated files just first 100 lines
   shell:
