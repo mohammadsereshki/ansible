@@ -7,6 +7,20 @@
     responses:
      (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
      (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
+#- name: Perform a Git pull from Repository in Remote server
+#  git:
+#     repo: "https://github.com/mohammadsereshki/python_test.git"
+#     dest: "/home/appuser/python_test"
+#     update: yes
+#     remote: "{{ remote_srv_remote }}"
+#     version: "{{ remote_srv_branch }}"
+#  environment:
+#    GIT_TERMINAL_PROMPT: 1
+#    GIT_ASKPASS: /bin/true
+#  register: gitpull_reg
+
+#- debug:
+#    var: gitpull_reg
 
 - name: get latest changes
   shell:
