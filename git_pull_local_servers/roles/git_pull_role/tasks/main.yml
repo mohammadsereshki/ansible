@@ -1,12 +1,83 @@
 ---
+---
+- name: Check Git diff on remote server to be sure no one changed any file there
+  command:
+    cmd: "git diff HEAD --stat"
+    chdir: "{{ remote_repo_path }}"
+  register: gitdiff
+
+- name: Show error if there is an issue in Git diff
+  fail:
+    msg: 
+      - "!!!!!!please check {{ remote_repo_path }} in server {{ inventory_hostname }} seems files are changed!!!!!"
+      - "{{ gitdiff.stdout_lines }}"
+  when: gitdiff.stdout != ""
+
+- name: Before pull from Git
+  shell:
+    cmd: "git show HEAD | head -1 | awk '{print $2}'"
+    chdir: "{{ remote_repo_path }}"
+  register: gitreg_before
+
 - name: Perform a Git pull from Repository in GitLab
   expect:
     command: "git pull {{ remote_srv_remote }} {{ remote_srv_branch }}"
-    chdir: "/home/appuser/python_test"
-    
+    chdir: "{{ remote_repo_path }}"
     responses:
      (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
      (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
+  register: gitpull_reg
+
+- name: After pull from Git
+  shell:
+    cmd: "git show HEAD | head -1 | awk '{print $2}'"
+    chdir: "{{ remote_repo_path }}"
+  register: gitreg_after
+
+- name: Show updated files just first 100 lines
+  shell:
+    cmd: "git show {{ gitreg_after.stdout }} | head -100"
+    chdir: "{{ remote_repo_path }}"
+  when: gitreg_after.stdout != gitreg_before.stdout 
+  register: git_new_update
+
+- name: Show new changes on Git just first 100 lines
+  debug:
+    msg: "{{ git_new_update.stdout_lines }}"
+  when: gitreg_after.stdout != gitreg_before.stdout
+
+- name: Creating a file with content
+  copy:
+    content: "{{ git_new_update.stdout_lines | join('<br>') }}"
+    dest: "/tmp/git_changes.txt"
+  delegate_to: localhost
+  when: gitreg_after.stdout != gitreg_before.stdout
+
+- name: Check size of the file
+  stat:
+    path: "/tmp/git_changes.txt"
+  register: file_info
+  delegate_to: localhost
+  when: gitreg_after.stdout != gitreg_before.stdout
+
+- name: Display file size
+  shell:
+    cmd: "head -100 /tmp/git_changes.txt > /tmp/temp_lines.txt;cp /tmp/temp_lines.txt /tmp/git_changes.txt;rm -f /tmp/temp_lines.txt"  
+  when: (gitreg_after.stdout != gitreg_before.stdout) and (( file_info.stat.size | int) > 102400 ) 
+
+  delegate_to: localhost
+
+
+
+
+# - name: Perform a Git pull from Repository in GitLab
+#   expect:
+#     command: "git pull {{ remote_srv_remote }} {{ remote_srv_branch }}"
+#     chdir: "/home/appuser/python_test"
+    
+#     responses:
+#      (?i)Username for.*: "{{ GIT_USERNAME_VAL }}"
+#      (?i)Password for.*: "{{ GIT_PASSWORD_VAL }}"
 #- name: Perform a Git pull from Repository in Remote server
 #  git:
 #     repo: "https://github.com/mohammadsereshki/python_test.git"
@@ -22,22 +93,22 @@
 #- debug:
 #    var: gitpull_reg
 
-- name: get latest changes
-  shell:
-    cmd: "git show HEAD"
-    chdir: "/home/appuser/python_test"
-  register: gitdiff   
+# - name: get latest changes
+#   shell:
+#     cmd: "git show HEAD"
+#     chdir: "/home/appuser/python_test"
+#   register: gitdiff   
   
 
-- name: print git diff
-  debug:
-    var: gitdiff
+# - name: print git diff
+#   debug:
+#     var: gitdiff
 
-- name: Creating a file with content
-  copy:
-    content: "{{ gitdiff.stdout_lines | join('<br>') }}"
-    dest: "/tmp/git_changes.txt"
-  delegate_to: localhost 
+# - name: Creating a file with content
+#   copy:
+#     content: "{{ gitdiff.stdout_lines | join('<br>') }}"
+#     dest: "/tmp/git_changes.txt"
+#   delegate_to: localhost 
 
 
      
