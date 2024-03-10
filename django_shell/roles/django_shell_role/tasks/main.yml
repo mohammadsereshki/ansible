@@ -1,7 +1,7 @@
 ---
 
 - debug:
-    msg: "{{ django_shell_commands |split('\n') }}"
+    msg: "{{ django_shell_commands |list }}"
 
 - name: Run command  on the application installed in django_dir
   django_manage:
