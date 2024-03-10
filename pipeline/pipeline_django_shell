@@ -32,9 +32,13 @@ pipeline {
             }
 
         }
-        stage('Example') {
+        stage('CLONE  ansible repo') {
             steps {
-                echo "Hello, ${COMMANDS_LIST}, nice to meet you."
+                checkout changelog: false, 
+                poll: false, 
+                scm: scmGit(branches: [[name: '*/**']],
+                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible'], localBranch('main')],
+                userRemoteConfigs: [[credentialsId: 'GITHUB_TOKEN', url: 'https://github.com/mohammadsereshki/ansible.git']])
             }
         }
         stage('run ansible') {
