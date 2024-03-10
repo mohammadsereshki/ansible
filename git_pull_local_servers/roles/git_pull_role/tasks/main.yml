@@ -1,5 +1,4 @@
 ---
----
 - name: Check Git diff on remote server to be sure no one changed any file there
   command:
     cmd: "git diff HEAD --stat"
