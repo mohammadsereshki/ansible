@@ -25,14 +25,9 @@ pipeline {
         }
     stages {
         stage('Example') {
-            input {
-                message "Should we continue?"
-                parameters {
-                    text(name: 'COMMAND_LIST', description: 'salam')
-                }
-            }
+            input message: 'enter list of commands', parameters: [text(defaultValue: 'sa', description: 'sa', name: 'COMMANDS_LIST')]
             steps {
-                echo "Hello, ${COMMAND_LIST}, nice to meet you."
+                echo "Hello, ${COMMANDS_LIST}, nice to meet you."
             }
         }
     }
