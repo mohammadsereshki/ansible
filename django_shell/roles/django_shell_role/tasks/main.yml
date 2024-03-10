@@ -1,7 +1,7 @@
 ---
 
 - debug:
-    msg: "{{ django_shell_commands.splitlines() }}"
+    msg: "{{ django_shell_commands | to_yaml  }}"
 
 - name: Run command  on the application installed in django_dir
   django_manage:
@@ -9,7 +9,7 @@
     app_path: "{{ django_dir }}"
     virtualenv: "{{ virtenv_var }}"
     pythonpath: "{{ pythonpath_var }}"
-  with_items:   "{{ django_shell_commands.splitlines() }}"
+  with_items:   "{{ django_shell_commands| to_yaml  }}"
   register:  django_shell_register
 
 
