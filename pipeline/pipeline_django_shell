@@ -31,6 +31,14 @@ pipeline {
                 }
             }
 
+            steps {
+                script { 
+                    def lines = "${COMMANDS_LIST}"
+                    def linesA = lines.split('\n')
+                    echo "${linesA}"
+                }
+            }  
+
         }
         stage('CLONE  ansible repo') {
             steps {
