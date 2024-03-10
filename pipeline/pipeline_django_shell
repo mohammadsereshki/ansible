@@ -34,12 +34,11 @@ pipeline {
                 }
               }
             }
-        }
-    stages {
         stage('Example') {
             steps {
                 echo "Hello, ${COMMANDS_LIST}, nice to meet you."
             }
         }
     }
+
 }
