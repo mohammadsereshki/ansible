@@ -1,7 +1,10 @@
 ---
+- set_fact:
+        my_list: "{{ django_shell_commands | regex_replace('\\[|\\]', '')  | split(',') }}"
+        
+    - debug:
+        var: my_list
 
-- debug:
-    msg: "{{ django_shell_commands | to_yaml  }}"
 
 - name: Run command  on the application installed in django_dir
   django_manage:
@@ -9,7 +12,7 @@
     app_path: "{{ django_dir }}"
     virtualenv: "{{ virtenv_var }}"
     pythonpath: "{{ pythonpath_var }}"
-  with_items:   "{{ django_shell_commands| to_yaml  }}"
+  with_items:   "{{ my_list }}"
   register:  django_shell_register
 
 
