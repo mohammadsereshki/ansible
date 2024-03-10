@@ -18,8 +18,9 @@
     chdir: "{{ remote_repo_path }}"
   register: gitreg_before
 
-- debug:
-    var: gitreg_before
+- name: before commit
+  debug:
+    msg: "{{ gitreg_before.stdout }}"
 
 - name: Perform a Git pull from Repository in GitLab
   expect:
@@ -37,9 +38,10 @@
     chdir: "{{ remote_repo_path }}"
   register: gitreg_after
 
-- debug:
-    var: gitreg_after
 
+- name: after commit
+  debug:
+    msg: "{{ gitreg_after.stdout }}"
 
 - name: Show updated files just first 100 lines
   shell:
