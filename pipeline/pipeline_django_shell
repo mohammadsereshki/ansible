@@ -55,7 +55,7 @@ pipeline {
         stage('run ansible') {
             steps {
                 ansiblePlaybook colorized: true, 
-                extras: '-e "jenkins_pipeline_path=${workspace} django_shell_commands=${COMMANDSLIST} "',
+                extras: '-e "jenkins_pipeline_path=${workspace} django_shell_commands=${COMMANDS_LIST} "',
                 inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
                 playbook: '${workspace}/ansible/django_shell/main.yml', 
                 vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
