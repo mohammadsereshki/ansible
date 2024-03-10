@@ -35,7 +35,7 @@ pipeline {
             steps {
                 script { 
                  
-                    echo "${linesA}"
+                    
                     def lines = "${COMMANDS_LIST}"
                     def linesA = lines.split('\n')
                     echo "${linesA}"
