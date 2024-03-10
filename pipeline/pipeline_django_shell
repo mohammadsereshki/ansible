@@ -13,7 +13,6 @@ pipeline {
     
     stages {
         stage('setup') {
-            matrix {
               input {
                 message 'Enter list of commands'
                 parameters {
@@ -21,7 +20,6 @@ pipeline {
                 }
               }
 
-            }
         }
         stage('setup email and get commands') {
             steps {
