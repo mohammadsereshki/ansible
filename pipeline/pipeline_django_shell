@@ -23,9 +23,11 @@ pipeline {
                 }
               }
             }
-          
-            parameters {
-               text 'COMMAND_LIST'
+
+            input {
+                parameters {
+                   text 'COMMAND_LIST'
+                }
             }
             steps {
                 echo "Hello, ${COMMAND_LIST}, nice to meet you."
