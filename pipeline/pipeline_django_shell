@@ -13,6 +13,11 @@ pipeline {
     
     
     stages {
+        stage('Enter commands') {
+            steps {
+                properties([parameters([text(defaultValue: 'sa', description: 'sasasa', name: 'COMMANDS_LIST')]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
+            }
+        }
         stage('setup email and get commands') {
             steps {
                 wrap([$class: 'BuildUser']) {
@@ -24,9 +29,6 @@ pipeline {
                 }
             }
 
-            steps {
-                properties([parameters([text(defaultValue: 'sa', description: 'sasasa', name: 'COMMANDS_LIST')]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
-            }
         }
         stage('Example') {
             steps {
