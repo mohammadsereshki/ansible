@@ -34,10 +34,12 @@ pipeline {
         stage('read line by line') {
             steps {
                 script { 
-                    def lines = "${COMMANDS_LIST}"
-                    def linesA = lines.split('\n')
-                    env.COMMANDSLIST="${linesA}"
+                 
                     echo "${linesA}"
+                    def lines = "${COMMANDS_LIST}"
+                    def linesA = lines.split().collect { it.trim() }
+                    echo "${linesA}"
+                    env.COMMANDSLIST="${linesA}"
                 }
             } 
         }
