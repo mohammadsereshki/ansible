@@ -50,4 +50,5 @@ app_log_file:
 django_dir: "/home/appuser/DJANGO/mysite"
 virtenv_var: "/home/appuser/DJANGO/.venv"
 pythonpath_var: "/usr/bin/python3"
-django_shell_commands: "import os"
+django_shell_commands: 
+  - "import os"
