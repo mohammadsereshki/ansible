@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    parameters {
-                  text defaultValue: 'sa', description: 'sassss', name: 'COMMANDS_LIST'
-    }
+
     options {
       disableConcurrentBuilds()
       disableRestartFromStage()
@@ -24,8 +22,12 @@ pipeline {
                         env.APP_NAME_LOWER= env.APP_NAME.toLowerCase()
                   }
                 }
-              }
             }
+
+            steps {
+                properties([parameters([text(defaultValue: 'sa', description: 'sasasa', name: 'COMMANDS_LIST')]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
+            }
+        }
         stage('Example') {
             steps {
                 echo "Hello, ${COMMANDS_LIST}, nice to meet you."
