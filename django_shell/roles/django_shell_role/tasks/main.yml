@@ -1,9 +1,9 @@
 ---
 - set_fact:
-        my_list: "{{ django_shell_commands | regex_replace('\\[|\\]', '')  | split(',') }}"
+    my_list: "{{ django_shell_commands | regex_replace('\\[|\\]', '')  | split(',') }}"
         
-    - debug:
-        var: my_list
+- debug:
+    var: my_list
 
 
 - name: Run command  on the application installed in django_dir
