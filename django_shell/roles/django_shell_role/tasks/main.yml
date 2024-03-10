@@ -9,7 +9,7 @@
     app_path: "{{ django_dir }}"
     virtualenv: "{{ virtenv_var }}"
     pythonpath: "{{ pythonpath_var }}"
-  with_items:   "{{ django_shell_commands |split('\n') }}"
+  with_items:   "{{ django_shell_commands }}|split('\n')"
   register:  django_shell_register
 
 
