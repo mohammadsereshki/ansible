@@ -13,13 +13,14 @@ pipeline {
     
     stages {
         stage('setup') {
+            steps {
               input {
                 message 'Enter list of commands'
                 parameters {
                   text defaultValue: 'sa', description: 'sassss', name: 'COMMANDS_LIST'
                 }
               }
-
+            }
         }
         stage('setup email and get commands') {
             steps {
