@@ -40,7 +40,7 @@ pipeline {
                     
                     def lines = "${COMMANDS_LIST}"
                     def linesA = lines.toString().split('\n')
-                    
+                    echo "${linesA}"
                     env.COMMANDSLIST="${linesA}"
                 }
             } 
@@ -57,7 +57,7 @@ pipeline {
         stage('run ansible') {
             steps {
                 ansiblePlaybook colorized: true, 
-                extras: '-e "jenkins_pipeline_path=${workspace} django_shell_commands=${custom_var}"',
+                extras: '-e "jenkins_pipeline_path=${workspace} django_shell_commands=${COMMANDSLIST}"',
                 inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
                 playbook: '${workspace}/ansible/django_shell/main.yml', 
                 vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
