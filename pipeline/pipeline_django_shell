@@ -9,17 +9,20 @@ pipeline {
       ansiColor('xterm')
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
     }
-    matrix {
-      input {
-        message 'Enter list of commands'
-        parameters {
-          text defaultValue: 'sa', description: 'sassss', name: 'COMMANDS_LIST'
-        }
-      }
-
-    }
+    
     
     stages {
+        stage('setup) {
+            matrix {
+              input {
+                message 'Enter list of commands'
+                parameters {
+                  text defaultValue: 'sa', description: 'sassss', name: 'COMMANDS_LIST'
+                }
+              }
+
+            }
+        }
         stage('setup email and get commands') {
             steps {
                 wrap([$class: 'BuildUser']) {
