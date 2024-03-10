@@ -1,11 +1,15 @@
 ---
+
+- debug:
+    msg: "{{ django_shell_commands |list }}"
+
 - name: Run command  on the application installed in django_dir
   django_manage:
     command: shell -c '{{ item }}'
     app_path: "{{ django_dir }}"
     virtualenv: "{{ virtenv_var }}"
     pythonpath: "{{ pythonpath_var }}"
-  with_items:   "{{ django_shell_commands }}"
+  with_items:   "{{ django_shell_commands |list }}"
   register:  django_shell_register
 
 
