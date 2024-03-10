@@ -45,3 +45,9 @@ docker_compose_file_path: "/home/appuser/"
 app_log_file:
   - "/var/log/messages"
   - "/var/log/cron"
+
+
+django_dir: "/home/appuser/DJANGO/mysite"
+virtenv_var: "/home/appuser/DJANGO/.venv"
+pythonpath_var: "/usr/bin/python3"
+django_shell_commands: "import os"
