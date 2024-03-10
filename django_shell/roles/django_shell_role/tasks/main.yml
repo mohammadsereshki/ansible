@@ -1,0 +1,12 @@
+---
+- name: Run command  on the application installed in django_dir
+  django_manage:
+    command: shell -c "{{ django_shell_commands }}"
+    app_path: "{{ django_dir }}"
+    virtualenv: "{{ virtenv_var }}"
+    pythonpath: "{{ pythonpath_var }}"
+  register:  django_shell_register
+
+
+- debug:
+    var: django_shell_register

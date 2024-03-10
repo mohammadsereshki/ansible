@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    options {
+      disableConcurrentBuilds()
+      disableRestartFromStage()
+      disableResume()
+      quietPeriod 30
+      timeout(activity: true, time: 15)
+      ansiColor('xterm')
+      buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
+    }
+    
+    stages {
+        stage('setup email and get commands') {
+            steps {
+                wrap([$class: 'BuildUser']) {
+                  script {
+                        env.EMAIL_TO=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/@.*//' |sed 's/\$/@gmail.com/' ")
+                        env.APP_NAME= "python_test"       
+                        env.APP_NAME_LOWER= env.APP_NAME.toLowerCase()
+                        sh 'printenv'
+                  }
+                }
+              }
+            }
+          
+            parameters {
+               text 'COMMAND_LIST'
+            }
+            steps {
+                echo "Hello, ${COMMAND_LIST}, nice to meet you."
+            }
+        }
+
+
+    }
+}

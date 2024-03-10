@@ -1,0 +1,9 @@
+---
+- name: run shell commands in django
+  hosts: all 
+  gather_facts: no
+    
+  roles:
+     - role: django_shell_role
+  
+
