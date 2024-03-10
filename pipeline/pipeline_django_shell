@@ -31,7 +31,4 @@ pipeline {
                 echo "Hello, ${COMMAND_LIST}, nice to meet you."
             }
         }
-
-
-    }
 }
