@@ -37,7 +37,7 @@ pipeline {
                  
                     echo "${linesA}"
                     def lines = "${COMMANDS_LIST}"
-                    def linesA = lines.split().collect { it.trim() }
+                    def linesA = lines.split('\n')
                     echo "${linesA}"
                     env.COMMANDSLIST="${linesA}"
                 }
