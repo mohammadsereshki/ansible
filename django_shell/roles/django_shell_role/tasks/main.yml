@@ -2,7 +2,7 @@
 - set_fact:
         my_string: "[import os,import sys]"
 - set_fact:
-    my_list: "{{ my_string.split(',') | regex_replace('\\[|\\]', '')|flatten }}"
+    my_list: "{{ my_string.split(',') | regex_replace('\\[|\\]', '')|map('join', ', ') }}"
         
 - debug:
     var: my_list
