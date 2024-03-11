@@ -1,6 +1,6 @@
 ---
 - name: Copy file with owner and permissions
-  ansible.builtin.copy:
+  copy:
     src: "{{ jenkins_pipeline_path }}/file1.py"
     dest: /tmp/file1.py
 
@@ -14,6 +14,13 @@
   register:  django_shell_register
 
 
-- debug:
-    var: django_shell_register
+- name: create a result file
+  shell:
+    cmd: echo "{{ django_shell_register.out }}" > "{{ jenkins_pipeline_path }}/result.log"
+  deligate_to: localhost
 
+
+- name: remove files from server
+  file:
+    path: "/tmp/file1.py"
+    state: absent
