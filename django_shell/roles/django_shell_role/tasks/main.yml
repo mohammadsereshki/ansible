@@ -14,7 +14,7 @@
     app_path: "{{ django_dir }}"
     virtualenv: "{{ virtenv_var }}"
     pythonpath: "{{ pythonpath_var }}"
-  with_items:   "{{ my_list }}"
+  with_items:   "{{ django_shell_commands }}"
   register:  django_shell_register
 
 
