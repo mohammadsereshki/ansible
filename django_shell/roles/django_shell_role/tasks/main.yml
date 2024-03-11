@@ -14,10 +14,11 @@
   register:  django_shell_register
 
 
-- name: create a result file
-  shell:
-    cmd: echo "{{ django_shell_register.out }}" > "{{ jenkins_pipeline_path }}/result.log"
-  deligate_to: localhost
+- name: Creating a file with content
+  copy:
+    content: "{{ django_shell_register.out }}"
+    dest: "{{ jenkins_pipeline_path }}/result.log"
+  delegate_to: localhost
 
 
 - name: remove files from server
