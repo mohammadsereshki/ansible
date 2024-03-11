@@ -1,6 +1,8 @@
 ---
 - set_fact:
-    my_list: "{{ django_shell_commands | regex_replace('\\[|\\]', '')  | split(',') }}"
+        my_string: "[import os,import sys]"
+- set_fact:
+    my_list: "{{ my_string | regex_replace('\\[|\\]', '')  | split(',') }}"
         
 - debug:
     var: my_list
