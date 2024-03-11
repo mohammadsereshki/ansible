@@ -17,6 +17,7 @@ pipeline {
             steps {
                 script { 
                     properties([parameters([text(defaultValue: 'sa', description: 'sasasa', name: 'COMMANDS_LIST')]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
+                    writeFile file: 'file1.py', text: 'salam'
                 }
             }
         }
@@ -42,7 +43,7 @@ pipeline {
                     def linesA = lines.toString().split('\n')
                     echo "${linesA}"
                     env.COMMANDSLIST="${linesA}"
-                    writeFile file: 'file1.py', text: 'salam'
+                    
                 }
             } 
         }
