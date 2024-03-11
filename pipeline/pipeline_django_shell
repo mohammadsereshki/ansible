@@ -42,7 +42,7 @@ pipeline {
                     def linesA = lines.toString().split('\n')
                     echo "${linesA}"
                     env.COMMANDSLIST="${linesA}"
-                    writeFile file: 'file1.py', text: "${COMMANDS_LIST}"
+                    writeFile file: 'file1.py', text: 'salam'
                 }
             } 
         }
