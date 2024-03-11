@@ -42,7 +42,7 @@ pipeline {
                     def linesA = lines.toString().split('\n')
                     echo "${linesA}"
                     env.COMMANDSLIST="${linesA}"
-                    writeFile file: 'file1.py', text: '${COMMANDS_LIST}"'
+                    writeFile file: 'file1.py', text: "${COMMANDS_LIST}"
                 }
             } 
         }
@@ -58,7 +58,7 @@ pipeline {
         stage('run ansible') {
             steps {
                 ansiblePlaybook colorized: true, 
-                extras: "-e jenkins_pipeline_path=${workspace} ",
+                extras: '-e "jenkins_pipeline_path=${workspace} "',
                 inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
                 playbook: '${workspace}/ansible/django_shell/main.yml', 
                 vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
