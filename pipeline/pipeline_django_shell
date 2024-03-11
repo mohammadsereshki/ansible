@@ -16,7 +16,7 @@ pipeline {
         stage('Enter commands') {
             steps {
                 script { 
-                    properties([parameters([text(defaultValue: 'sa', description: 'sasasa', name: 'COMMANDS_LIST')]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
+                    properties([parameters([text(defaultValue: 'import os', description: 'sasasa', name: 'COMMANDS_LIST')]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
    
                 }
             }
@@ -26,27 +26,12 @@ pipeline {
                 wrap([$class: 'BuildUser']) {
                   script {
                         env.EMAIL_TO=sh(returnStdout: true, script: "echo ${BUILD_USER_EMAIL} | sed 's/@.*//' |sed 's/\$/@gmail.com/' ")
-                        env.APP_NAME= "python_test"       
-                        env.APP_NAME_LOWER= env.APP_NAME.toLowerCase()
+
                   }
                 }
             }
         }
-        stage('read line by line') {
-            steps {
-                script { 
-                    tmp_params = sh (script: 'echo "${COMMANDS_LIST}"', returnStdout: true).trim()
-                    env.custom_var = tmp_param
-                    echo ${env.custom_var}
-                    
-                    def lines = "${COMMANDS_LIST}"
-                    def linesA = lines.toString().split('\n')
-                    echo "${linesA}"
-                    env.COMMANDSLIST="${linesA}"
-                    
-                }
-            } 
-        }
+
         stage('CLONE  ansible repo') {
             steps {
                 checkout changelog: false, 
