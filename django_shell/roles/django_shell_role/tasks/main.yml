@@ -1,22 +1,19 @@
 ---
-- set_fact:
-        my_string: "[import os,import sys]"
-- set_fact:
-    my_list: "{{ my_string.split(',') | regex_replace('\\[|\\]', '')|map('join', ', ') }}"
-        
-- debug:
-    var: my_list
+- name: Copy file with owner and permissions
+  ansible.builtin.copy:
+    src: "{{ jenkins_pipeline_path }}/file1.py"
+    dest: /tmp/file1.py
 
 
 - name: Run command  on the application installed in django_dir
   django_manage:
-    command: shell -c '{{ item }}'
+    command: shell -c "exec(open('/tmp/file1.py').read())"
     app_path: "{{ django_dir }}"
     virtualenv: "{{ virtenv_var }}"
     pythonpath: "{{ pythonpath_var }}"
-  with_items:   "{{ django_shell_commands }}"
   register:  django_shell_register
 
 
 - debug:
     var: django_shell_register
+
