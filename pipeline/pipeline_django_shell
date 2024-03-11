@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script { 
                     properties([parameters([text(defaultValue: 'import os', description: 'sasasa', name: 'COMMANDS_LIST')]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
-   
+                    writeFile file: 'file1.py', text: "${COMMANDS_LIST}"
                 }
             }
         }
