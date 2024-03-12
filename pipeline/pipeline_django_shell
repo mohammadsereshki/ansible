@@ -10,13 +10,15 @@ pipeline {
       ansiColor('xterm')
       buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '1', numToKeepStr: '5')
     }
-    
+    parameters {
+        text defaultValue: 'import os', description: 'Enter your script', name: 'COMMANDS_LIST'
+    }
     
     stages {
         stage('Enter commands') {
             steps {
                 script { 
-                    properties([parameters([text(defaultValue: 'import os', description: 'sasasa', name: 'COMMANDS_LIST')]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
+                    
                     writeFile file: 'file1.py', text: "${COMMANDS_LIST}"
                 }
             }
