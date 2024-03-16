@@ -41,10 +41,12 @@ pipeline {
         }
         stage('Upload File to Slack') {
             steps {
+                sh 'pwd'
+                sh 'ls'
                 script {
                     // Replace 'slackToken' with your Slack API token
                     
-                    slackUploadFile(channel: '#jenkins-test', credentialId: 'SLACK_TOKEN', filePath: "./ansible/inventory/capex_uat.ini", initialComment: 'File uploaded from Jenkins pipeline')
+                    slackUploadFile(channel: '#jenkins-test', credentialId: 'SLACK_TOKEN', filePath: "${workspace}/ansible/inventory/capex_uat.ini", initialComment: 'File uploaded from Jenkins pipeline')
                 }
             }
         }
