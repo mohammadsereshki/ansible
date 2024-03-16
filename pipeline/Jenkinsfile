@@ -47,7 +47,7 @@ pipeline {
                     // Replace 'slackToken' with your Slack API token
                     
                     slackUploadFile(channel: '#jenkins-test', credentialId: 'SLACK_TOKEN', filePath: "/var/jenkins/workspace/first_pipeline/ansible/inventory/capex_uat.ini", initialComment: 'File uploaded from Jenkins pipeline')
-                    slackUploadFile channel: '#mas', credentialId: 'slack_mas_token', filePath: './ansible/inventory/*.ini'
+                    slackUploadFile channel: '#mas', credentialId: 'slack_mas_token', filePath: '/var/jenkins/workspace/first_pipeline/ansible/inventory/capex_uat.ini'
                 }
             }
         }
@@ -59,7 +59,10 @@ pipeline {
         always {
             
             slackSend botUser: true, channel: '#jenkins-test', message: 'salam chetori', teamDomain: 'testjenkins-slack-plugin', tokenCredentialId: 'SLACK_TOKEN'
+            slackSend botUser: true, channel: '#mas', message: 'salam chetori mas', teamDomain: 'testjenkins-slack-plugin', tokenCredentialId: 'SLACK_TOKEN'
             
+        }
+        cleanup {
             cleanWs()
         }
     }
