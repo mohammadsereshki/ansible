@@ -43,8 +43,11 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'ls'
+                sh "echo hey > blah.txt"
+                slackUploadFile filePath: "*.txt", initialComment:  "HEY HEY"
                 script {
                     // Replace 'slackToken' with your Slack API token
+
                     slackUploadFile channel: '#jenkins-test', credentialId: 'SLACK_TOKEN', filePath: '/etc/hosts', initialComment: 'salam'
                     slackUploadFile(channel: '#jenkins-test', credentialId: 'SLACK_TOKEN', filePath: "/var/jenkins/workspace/first_pipeline/ansible/inventory/capex_uat.ini", initialComment: 'File uploaded from Jenkins pipeline')
                     slackUploadFile channel: 'Jenkins', credentialId: 'slack_mas_token', filePath: '/var/jenkins/workspace/first_pipeline/ansible/inventory/capex_uat.ini'
