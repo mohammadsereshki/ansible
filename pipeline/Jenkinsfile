@@ -46,6 +46,7 @@ pipeline {
     post {
         always {
             slackSend botUser: true, channel: '#jenkins-test', message: 'salam chetori', teamDomain: 'testjenkins-slack-plugin', tokenCredentialId: 'SLACK_TOKEN'
+            slackUploadFile channel: '#jenkins-test', credentialId: 'SLACK_TOKEN', filePath: '${workspace}/ansible/inventory/capex_uat.ini', initialComment: 'this is file'
             cleanWs()
             mail bcc: '', body: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}: \n Check console output at ${env.BUILD_URL} to view the results.",
             cc: '', charset: 'UTF-8', from: "jenkins@ariana.com", mimeType: 'text/html', replyTo: '', subject: "${env.JOB_NAME} Build # ${env.BUILD_NUMBER} - ${currentBuild.currentResult}", to: "${env.EMAIL_TO}"
