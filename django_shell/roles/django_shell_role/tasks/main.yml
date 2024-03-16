@@ -25,3 +25,9 @@
   file:
     path: "/tmp/file1.py"
     state: absent
+
+
+  - name: Find lines with "w" as a word in a file
+    shell:
+      cmd: "cat /tmp/1 |grep -iE 'with\\s+open\\(' |grep -iE '\\bw\\b'| cut -d ',' -f 1 |cut -d '(' -f 2 | sed  \"s/'//g\" | sed  's/\"//g'  "
+    register: found_lines
