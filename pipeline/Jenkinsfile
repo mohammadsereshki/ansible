@@ -60,7 +60,7 @@ pipeline {
             
             slackSend botUser: true, channel: '#jenkins-test', message: 'salam chetori', teamDomain: 'testjenkins-slack-plugin', tokenCredentialId: 'SLACK_TOKEN'
             
-            
+            cleanWs()
         }
     }
 }
