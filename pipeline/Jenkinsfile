@@ -47,7 +47,7 @@ pipeline {
                 slackUploadFile filePath: "*.txt", initialComment:  "HEY HEY"
                 script {
                     // Replace 'slackToken' with your Slack API token
-                    slackUploadFile filePath: "/var/jenkins/workspace/first_pipeline/ansible/inventory/*.ini", initialComment: 'File uploaded from Jenkins pipeline'
+                    slackUploadFile filePath: "ansible/inventory/*.ini", initialComment: 'File uploaded from Jenkins pipeline'
 
                 }
             }
