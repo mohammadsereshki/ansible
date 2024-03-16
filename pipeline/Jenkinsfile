@@ -45,7 +45,7 @@ pipeline {
     }
     post {
         always {
-            slackUploadFile channel: '#jenkins-test', credentialId: 'SLACK_TOKEN', filePath: '${workspace}/ansible/inventory/*', initialComment: 'this is file'
+            slackUploadFile channel: '#jenkins-test', credentialId: 'SLACK_TOKEN', filePath: "${workspace}/ansible/inventory/capex_uat.ini", initialComment: 'this is file'
             slackSend botUser: true, channel: '#jenkins-test', message: 'salam chetori', teamDomain: 'testjenkins-slack-plugin', tokenCredentialId: 'SLACK_TOKEN'
             
             cleanWs()
