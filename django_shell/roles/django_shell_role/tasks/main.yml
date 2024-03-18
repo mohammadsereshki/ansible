@@ -6,9 +6,9 @@
 
 - name: Copy datafile
   copy:
-    src: "{{ jenkins_pipeline_path }}/{{ datafile }}"
-    dest: "{{ django_dir }}/{{ datafile }}"
-  when: datafile!=""  
+    src: "{{ jenkins_pipeline_path }}/{{ data_file }}"
+    dest: "{{ django_dir }}/{{ data_file }}"
+  when: data_file != ""  
 
 
 - name: Run command  on the application installed in django_dir
@@ -34,9 +34,9 @@
 
 # - name: Copy datafile
 #   file:
-#     path: "{{ jenkins_pipeline_path }}/{{ datafile }}"
+#     path: "{{ jenkins_pipeline_path }}/{{ data_file }}"
 #     state: absent
-#   when: datafile!="
+#   when: data_file != ""
 
   # - name: Find lines with "w" as a word in a file
   #   shell:
