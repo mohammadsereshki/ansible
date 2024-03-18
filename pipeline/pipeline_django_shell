@@ -12,9 +12,22 @@ pipeline {
     }
     parameters {
         text defaultValue: 'import os', description: 'Enter your script', name: 'COMMANDS_LIST'
+        base64File(name: 'uploadedFile', description: 'Upload file')
     }
     
     stages {
+        stage('upload data files') {
+            when {
+                    expression { return env.uploadedFile_FILENAME != null }
+            }
+    	    steps {
+    
+                withFileParameter(name:'uploadedFile', allowNoFile: false) {
+                  sh 'mv $uploadedFile ${WORKSPACE}/${uploadedFile_FILENAME}'
+                }
+                
+            }
+        }
         stage('Enter commands') {
             steps {
                 script { 
@@ -46,7 +59,7 @@ pipeline {
         stage('run ansible') {
             steps {
                 ansiblePlaybook colorized: true, 
-                extras: '-e "jenkins_pipeline_path=${workspace} "',
+                extras: '-e "jenkins_pipeline_path=${workspace} data_file=${uploadedFile_FILENAME}" ',
                 inventory: '${workspace}/ansible/inventory/capex_uat.ini', 
                 playbook: '${workspace}/ansible/django_shell/main.yml', 
                 vaultCredentialsId: 'vault_pass', vaultTmpPath: ''
