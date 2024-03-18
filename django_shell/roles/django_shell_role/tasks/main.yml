@@ -32,11 +32,11 @@
     path: "/tmp/file1.py"
     state: absent
 
-- name: Copy datafile
-  file:
-    path: "{{ jenkins_pipeline_path }}/{{ datafile }}"
-    state: absent
-  when: datafile!="
+# - name: Copy datafile
+#   file:
+#     path: "{{ jenkins_pipeline_path }}/{{ datafile }}"
+#     state: absent
+#   when: datafile!="
 
   # - name: Find lines with "w" as a word in a file
   #   shell:
