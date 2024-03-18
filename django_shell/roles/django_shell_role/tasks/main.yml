@@ -4,6 +4,12 @@
     src: "{{ jenkins_pipeline_path }}/file1.py"
     dest: /tmp/file1.py
 
+- name: Copy datafile
+  copy:
+    src: "{{ jenkins_pipeline_path }}/{{ datafile }}"
+    dest: "{{ django_dir }}/{{ datafile }}"
+  when: datafile!=""  
+
 
 - name: Run command  on the application installed in django_dir
   django_manage:
@@ -26,8 +32,13 @@
     path: "/tmp/file1.py"
     state: absent
 
+- name: Copy datafile
+  file:
+    path: "{{ jenkins_pipeline_path }}/{{ datafile }}"
+    state: absent
+  when: datafile!="
 
-  - name: Find lines with "w" as a word in a file
-    shell:
-      cmd: "cat /tmp/1 |grep -iE 'with\\s+open\\(' |grep -iE '\\bw\\b'| cut -d ',' -f 1 |cut -d '(' -f 2 | sed  \"s/'//g\" | sed  's/\"//g'  "
-    register: found_lines
+  # - name: Find lines with "w" as a word in a file
+  #   shell:
+  #     cmd: "cat /tmp/1 |grep -iE 'with\\s+open\\(' |grep -iE '\\bw\\b'| cut -d ',' -f 1 |cut -d '(' -f 2 | sed  \"s/'//g\" | sed  's/\"//g'  "
+  #   register: found_lines
